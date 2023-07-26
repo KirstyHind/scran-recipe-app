@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { getDatabase, ref, query, orderByChild, startAt, endAt, onValue } from 'firebase/database'; // Import Firebase Realtime Database methods
 
 const SearchResult = ({ route }) => {
   const { keyword } = route.params;
@@ -7,31 +8,54 @@ const SearchResult = ({ route }) => {
   // State to store the search results
   const [searchResults, setSearchResults] = useState([]);
 
-  // useEffect hook to fetch search results from Firebase database
+  // Function to fetch search results from Firebase database based on the search query
+  const fetchSearchResults = (searchQuery) => {
+    const database = getDatabase();
+
+    // Create a query to search for recipes with a title containing the searchQuery
+    const searchQueryRef = ref(database, 'recipes');
+    const searchQueryQuery = query(
+      searchQueryRef,
+      orderByChild('recipeName'),
+      startAt(searchQuery),
+      endAt(searchQuery + '\uf8ff')
+    );
+    // Listen for changes to the searchQueryQuery and update the searchResults state accordingly
+    onValue(searchQueryQuery, (snapshot) => {
+      if (snapshot.exists()) {
+        // Convert the snapshot data into an array of search results
+        const data = snapshot.val();
+        const results = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
+        setSearchResults(results);
+      } else {
+        // No results found
+        setSearchResults([]);
+      }
+    });
+  };
+
+  // useEffect hook to fetch search results when the component mounts or when the keyword changes
   useEffect(() => {
-    // Implement your logic to fetch search results from Firebase database based on the 'keyword' parameter
-    // Example: You can use Firebase Realtime Database queries or Firestore queries here to fetch the data
-    // and update the 'searchResults' state with the fetched data.
-
-    // Dummy data for demonstration purposes
-    const dummyData = [
-      { id: 1, title: 'Recipe 1', description: 'Description of Recipe 1' },
-      { id: 2, title: 'Recipe 2', description: 'Description of Recipe 2' },
-      // Add more recipe data here
-    ];
-
-    setSearchResults(dummyData); // Update the searchResults state with the fetched data
+    if (keyword.trim() !== '') {
+      fetchSearchResults(keyword);
+    } else {
+      setSearchResults([]); // Clear the search results if the search query is empty
+    }
   }, [keyword]);
 
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Search Results for: {keyword}</Text>
-      {searchResults.map((recipe) => (
-        <View key={recipe.id}>
-          <Text style={styles.recipeTitle}>{recipe.title}</Text>
-          <Text style={styles.recipeDescription}>{recipe.description}</Text>
-        </View>
-      ))}
+      {searchResults.length > 0 ? (
+        searchResults.map((recipe) => (
+          <View key={recipe.id} style={styles.recipeContainer}>
+            <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+            <Text style={styles.recipeDescription}>{recipe.description}</Text>
+          </View>
+        ))
+      ) : (
+        <Text>No results found.</Text>
+      )}
     </View>
   );
 };
