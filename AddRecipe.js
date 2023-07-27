@@ -11,9 +11,9 @@ const AddRecipe = ({ navigation }) => {
   // State to store the recipe details
   const [recipeName, setRecipeName] = useState('');
   const [description, setDescription] = useState('');
-  const [ingredients, setIngredients] = useState(['']);
+  const [ingredients, setIngredients] = useState('');
   const [servings, setServings] = useState('');
-  const [cookingInstructions, setCookingInstructions] = useState(['']);
+  const [cookingInstructions, setCookingInstructions] = useState('');
   const [cuisine, setCuisine] = useState('');
   const [prepTime, setPrepTime] = useState('');
   const [cookTime, setCookTime] = useState('');
