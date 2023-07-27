@@ -3,16 +3,16 @@ import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const Toolbar = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-const handleAddRecipeButtonPress = () => {
+  const handleAddRecipeButtonPress = () => {
     navigation.navigate('AddRecipe'); // Navigate to the AddRecipe screen
   };
 
-const handleHomeButtonPress = () => {
-  navigation.navigate('HomeScreen'); // Navigate to the HomeScreen screen
-};
-  
+  const handleHomeButtonPress = () => {
+    navigation.navigate('HomeScreen'); // Navigate to the HomeScreen screen
+  };
+
   return (
     <View style={styles.toolbar}>
       <TouchableOpacity onPress={handleHomeButtonPress}>

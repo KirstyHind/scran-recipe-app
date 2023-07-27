@@ -14,7 +14,7 @@ const RecipeDetails = ({ route }) => {
 
   useEffect(() => {
     const recipeRef = ref(database, `recipes/${recipeId}`);
-      
+
     const onValueChange = snapshot => {
       if (snapshot.exists()) {
         setRecipe(snapshot.val());
@@ -22,7 +22,7 @@ const RecipeDetails = ({ route }) => {
     }
 
     onValue(recipeRef, onValueChange);
-      
+
     return () => off(recipeRef, 'value', onValueChange);
   }, [recipeId]);
 
@@ -44,16 +44,16 @@ const RecipeDetails = ({ route }) => {
   const handleSave = async () => {
     try {
       const user = getAuth().currentUser;
-  
+
       if (!user) {
         throw new Error('User is not authenticated');
       }
-  
+
       const savedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
       await set(savedRecipeRef, recipe);
       Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
       setIsSaved(true); // Set the recipe as saved
-  
+
     } catch (error) {
       Alert.alert('Failed to save recipe', `An error occurred while saving the recipe: ${error.message}`);
     }
@@ -65,9 +65,9 @@ const RecipeDetails = ({ route }) => {
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={styles.recipeName}>{recipe.recipeName}</Text>
           <TouchableOpacity onPress={handleSave}>
-            <Image 
-              source={isSaved ? require('scran-recipe-app/assets/savedrecipe.png') : require('scran-recipe-app/assets/save.png')} 
-              style={{ width: 60, height: 60, }} 
+            <Image
+              source={isSaved ? require('scran-recipe-app/assets/savedrecipe.png') : require('scran-recipe-app/assets/save.png')}
+              style={{ width: 60, height: 60, }}
             />
           </TouchableOpacity>
         </View>
@@ -95,35 +95,35 @@ const RecipeDetails = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    content: {
-        padding: 20,
-        paddingBottom: 120,
-    },
-    
-    recipeImage: {
-      width: '100%',
-      height: 200,
-      resizeMode: 'cover',
-      marginBottom: 20,
-    },
-    recipeName: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-    recipeDescription: {
-      fontSize: 16,
-      marginBottom: 10,
-    },
-    heading: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginTop: 20,
-      marginBottom: 10,
-    },
-  });
+  container: {
+    flex: 1,
+  },
+  content: {
+    padding: 20,
+    paddingBottom: 120,
+  },
+
+  recipeImage: {
+    width: '100%',
+    height: 200,
+    resizeMode: 'cover',
+    marginBottom: 20,
+  },
+  recipeName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  recipeDescription: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+});
 
 export default RecipeDetails;

@@ -20,7 +20,7 @@ const SearchResult = ({ route }) => {
         const data = snapshot.val();
         const allRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
 
-        const results = allRecipes.filter((recipe) => 
+        const results = allRecipes.filter((recipe) =>
           (recipe.recipeName && recipe.recipeName.toLowerCase().includes(keyword.toLowerCase())) ||
           (recipe.description && recipe.description.toLowerCase().includes(keyword.toLowerCase())) ||
           (recipe.ingredients && recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(keyword.toLowerCase()))) ||

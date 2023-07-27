@@ -65,10 +65,10 @@ export default function MainApp() {
         />
 
         {/* RecipeDetails */}
-        <Stack.Screen 
-        name="RecipeDetails" // Name for the screen 
-        component={RecipeDetails} // Component to be rendered
-        options={{ title: 'Recipe Details' }} // Customize the header title
+        <Stack.Screen
+          name="RecipeDetails" // Name for the screen 
+          component={RecipeDetails} // Component to be rendered
+          options={{ title: 'Recipe Details' }} // Customize the header title
         />
 
         {/* Toolbar */}

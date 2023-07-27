@@ -53,78 +53,78 @@ const AddRecipe = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-      {/* Input fields for recipe details */}
-      <TextInput
-        style={styles.input}
-        placeholder="Recipe Name"
-        value={recipeName}
-        onChangeText={(text) => setRecipeName(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Description"
-        value={description}
-        onChangeText={(text) => setDescription(text)}
-        multiline // Enable multiline input
-        numberOfLines={4} // Set the initial number of lines to show
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Ingredients (separate by ,)"
-        value={ingredients}
-        onChangeText={(text) => setIngredients(text)}
-        multiline // Enable multiline input
-        numberOfLines={4} // Set the initial number of lines to show
-        onSubmitEditing={() => {}} // This function will handle the "Enter" key press
-      />
+        {/* Input fields for recipe details */}
+        <TextInput
+          style={styles.input}
+          placeholder="Recipe Name"
+          value={recipeName}
+          onChangeText={(text) => setRecipeName(text)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Description"
+          value={description}
+          onChangeText={(text) => setDescription(text)}
+          multiline // Enable multiline input
+          numberOfLines={4} // Set the initial number of lines to show
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Ingredients (separate by ,)"
+          value={ingredients}
+          onChangeText={(text) => setIngredients(text)}
+          multiline // Enable multiline input
+          numberOfLines={4} // Set the initial number of lines to show
+          onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Servings"
-        value={servings}
-        onChangeText={(text) => setServings(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
-        keyboardType="numeric"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Servings"
+          value={servings}
+          onChangeText={(text) => setServings(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+          keyboardType="numeric"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Cooking Instructions (separate by ,)"
-        value={cookingInstructions}
-        onChangeText={(text) => setCookingInstructions(text)}
-        multiline // Enable multiline input
-        numberOfLines={4} // Set the initial number of lines to show
-        onSubmitEditing={() => {}} // This function will handle the "Enter" key press
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Cooking Instructions (separate by ,)"
+          value={cookingInstructions}
+          onChangeText={(text) => setCookingInstructions(text)}
+          multiline // Enable multiline input
+          numberOfLines={4} // Set the initial number of lines to show
+          onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Cuisine"
-        value={cuisine}
-        onChangeText={(text) => setCuisine(text)}
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Preparation Time (Minutes)"
-        value={prepTime}
-        onChangeText={(text) => setPrepTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
-        keyboardType="numeric"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Cuisine"
+          value={cuisine}
+          onChangeText={(text) => setCuisine(text)}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Cooking Time (Minutes)"
-        value={cookTime}
-        onChangeText={(text) => setCookTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
-        keyboardType="numeric"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Preparation Time (Minutes)"
+          value={prepTime}
+          onChangeText={(text) => setPrepTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+          keyboardType="numeric"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Meal Type"
-        value={mealType}
-        onChangeText={(text) => setMealType(text)}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Cooking Time (Minutes)"
+          value={cookTime}
+          onChangeText={(text) => setCookTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+          keyboardType="numeric"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Meal Type"
+          value={mealType}
+          onChangeText={(text) => setMealType(text)}
+        />
       </ScrollView>
 
       {/* Save button */}
@@ -139,36 +139,36 @@ const AddRecipe = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-    },
-    content: {
-      padding: 20,
-    },
-    input: {
-      height: 40,
-      borderColor: '#ccc',
-      borderWidth: 1,
-      borderRadius: 5,
-      marginBottom: 10,
-      paddingHorizontal: 10,
-    },
-    saveButton: {
-      backgroundColor: '#000',
-      paddingVertical: 20,
-      paddingHorizontal: 20,
-      borderRadius: 5,
-      alignItems: 'center',
-      position: 'absolute',
-      bottom: 125,
-      left: 20,
-      right: 20,
-    },
-    buttonText: {
-      color: '#fff',
-      fontSize: 18,
-    },
-  });
-  
-  export default AddRecipe;
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  content: {
+    padding: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  saveButton: {
+    backgroundColor: '#000',
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 125,
+    left: 20,
+    right: 20,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+  },
+});
+
+export default AddRecipe;

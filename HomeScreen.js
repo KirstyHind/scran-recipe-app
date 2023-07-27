@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import Toolbar from './Toolbar';
@@ -26,7 +26,7 @@ const HomeScreen = () => {
       })
       .catch((error) => {
         // Handle any errors that occurred during logout
-        Alert.alert('Logout Error', error.message);
+        console.error('Logout error:', error.message);
       });
   };
 
