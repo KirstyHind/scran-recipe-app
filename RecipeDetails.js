@@ -30,6 +30,17 @@ const RecipeDetails = ({ route }) => {
     return <Text>Loading...</Text>;
   }
 
+  const totalTime = recipe.prepTime + recipe.cookTime;
+  const hours = Math.floor(totalTime / 60);
+  const minutes = totalTime % 60;
+
+  let displayTime;
+if (hours > 0) {
+  displayTime = `${hours} hours ${minutes} minutes`;
+} else {
+  displayTime = `${minutes} minutes`;
+}
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.content}>
@@ -38,6 +49,7 @@ const RecipeDetails = ({ route }) => {
         <Text style={styles.recipeDescription}>{recipe.description}</Text>
         <Text style={styles.prepTime}>Prep Time: {recipe.prepTime} minutes</Text>
         <Text style={styles.cookTime}>Cook Time: {recipe.cookTime} minutes</Text>
+        <Text style={styles.totalTime}>Total Time: {displayTime}</Text>
         <Text style={styles.servings}>Servings: {recipe.servings}</Text>
         <Text style={styles.cuisine}>Cuisine: {recipe.cuisine}</Text>
         <Text style={styles.mealType}>Meal Type: {recipe.mealType}</Text>
