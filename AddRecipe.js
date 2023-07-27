@@ -6,13 +6,14 @@ import 'firebase/compat/database';
 import Toolbar from './Toolbar';
 import { ScrollView } from 'react-native-gesture-handler';
 
+
 const AddRecipe = ({ navigation }) => {
   // State to store the recipe details
   const [recipeName, setRecipeName] = useState('');
   const [description, setDescription] = useState('');
-  const [ingredients, setIngredients] = useState('');
+  const [ingredients, setIngredients] = useState(['']);
   const [servings, setServings] = useState('');
-  const [cookingInstructions, setCookingInstructions] = useState('');
+  const [cookingInstructions, setCookingInstructions] = useState(['']);
   const [cuisine, setCuisine] = useState('');
   const [prepTime, setPrepTime] = useState('');
   const [cookTime, setCookTime] = useState('');
@@ -24,13 +25,14 @@ const AddRecipe = ({ navigation }) => {
       const recipesRef = ref(database, 'recipes');
 
       const ingredientsArray = ingredients.split(',').map(item => item.trim()); // Convert the string to an array
+      const instructionsArray = cookingInstructions.split(',').map(item => item.trim()); // Convert the string to an array
 
       const newRecipe = {
         recipeName,
         description,
         ingredients: ingredientsArray, // Save the ingredients as an array
         servings: parseInt(servings), // Save the servings as a number
-        cookingInstructions,
+        cookingInstructions: instructionsArray,
         cuisine,
         prepTime: parseInt(prepTime), // Save the prep time as a number
         cookTime: parseInt(cookTime), // Save the cook time as a number
@@ -41,7 +43,7 @@ const AddRecipe = ({ navigation }) => {
 
       Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
 
-      navigation.navigate('Home');
+      navigation.navigate('HomeScreen');
     } catch (error) {
       console.error('Failed to save recipe', error.message);
       Alert.alert('Failed to save recipe', 'An error occurred while saving the recipe.');
@@ -69,7 +71,7 @@ const AddRecipe = ({ navigation }) => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Ingredients"
+        placeholder="Ingredients (separate by ,)"
         value={ingredients}
         onChangeText={(text) => setIngredients(text)}
         multiline // Enable multiline input
@@ -86,7 +88,7 @@ const AddRecipe = ({ navigation }) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Cooking Instructions"
+        placeholder="Cooking Instructions (separate by ,)"
         value={cookingInstructions}
         onChangeText={(text) => setCookingInstructions(text)}
         multiline // Enable multiline input
