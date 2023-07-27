@@ -12,6 +12,7 @@ import Toolbar from './Toolbar'; // Import the Toolbar component
 import firebase from './firebaseConfig'; // Import the firebaseConfig object
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
+import RecipeDetails from './RecipeDetails';
 
 AppRegistry.registerComponent(appName, () => MainApp);
 
@@ -26,47 +27,54 @@ export default function MainApp() {
       <Stack.Navigator>
         {/* Home - The first screen displayed */}
         <Stack.Screen
-          name="Home" // Name for the screen (you can use any name)
-          component={Home} // Component to be rendered for the Home
+          name="Home" // Name for the screen 
+          component={Home} // Component to be rendered
           options={{ headerShown: true }} // Customize the header options (in this case, show the header)
         />
         {/* Login Screen */}
         <Stack.Screen
-          name="Login" // Name for the screen (you can use any name)
-          component={Login} // Component to be rendered for the Login screen
+          name="Login" // Name for the screen 
+          component={Login} // Component to be rendered
           options={{ title: 'Login' }} // Customize the header title
         />
         {/* Register Screen */}
         <Stack.Screen
-          name="Register" // Name for the screen (you can use any name)
-          component={Register} // Component to be rendered for the Register screen
+          name="Register" // Name for the screen 
+          component={Register} // Component to be rendered
           options={{ title: 'Register' }} // Customize the header title
         />
         {/* HomeScreen */}
         <Stack.Screen
-          name="HomeScreen" // Name for the screen (you can use any name)
-          component={HomeScreen} // Component to be rendered for the Register screen
+          name="HomeScreen" // Name for the screen 
+          component={HomeScreen} // Component to be rendered
           options={{ title: 'Home' }} // Customize the header title
         />
 
         {/* SearchResult */}
         <Stack.Screen
-          name="SearchResult" // Name for the screen (you can use any name)
-          component={SearchResult} // Component to be rendered for the Register screen
+          name="SearchResult" // Name for the screen 
+          component={SearchResult} // Component to be rendered
           options={{ title: 'Search Results' }} // Customize the header title
         />
 
         {/* AddRecipe */}
         <Stack.Screen
-          name="AddRecipe" // Name for the screen (you can use any name)
-          component={AddRecipe} // Component to be rendered for the Register screen
+          name="AddRecipe" // Name for the screen 
+          component={AddRecipe} // Component to be rendered
           options={{ title: 'Add a Recipe' }} // Customize the header title
+        />
+
+        {/* RecipeDetails */}
+        <Stack.Screen 
+        name="RecipeDetails" // Name for the screen 
+        component={RecipeDetails} // Component to be rendered
+        options={{ title: 'Recipe Details' }} // Customize the header title
         />
 
         {/* Toolbar */}
         <Stack.Screen
-          name="Toolbar" // Name for the screen (you can use any name)
-          component={Toolbar} // Component to be rendered for the Register screen
+          name="Toolbar" // Name for the screen 
+          component={Toolbar} // Component to be rendered
           options={{ title: 'Toolbar' }} // Customize the header title
         />
       </Stack.Navigator>

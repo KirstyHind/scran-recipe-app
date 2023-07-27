@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { getDatabase, ref, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
+import { useNavigation } from '@react-navigation/native';
 
 const SearchResult = ({ route }) => {
   const { keyword } = route.params;
+  const navigation = useNavigation();
 
   // State to store the search results
   const [searchResults, setSearchResults] = useState([]);
@@ -55,13 +57,15 @@ const SearchResult = ({ route }) => {
       <Text style={styles.heading}>Search Results for: {keyword}</Text>
       {searchResults.length > 0 ? (
         searchResults.map((recipe) => (
-          <View key={recipe.id} style={styles.recipeContainer}>
-            <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-            <View style={styles.recipeDetails}>
-              <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-              <Text style={styles.recipeDescription}>{recipe.description}</Text>
+          <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
+            <View style={styles.recipeContainer}>
+              <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+              <View style={styles.recipeDetails}>
+                <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+                <Text style={styles.recipeDescription}>{recipe.description}</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))
       ) : (
         <Text>No results found.</Text>
