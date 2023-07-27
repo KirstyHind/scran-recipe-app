@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView } from 'react-native';
-import { getDatabase, ref, onValue, off } from 'firebase/database';
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Button, Alert } from 'react-native';
+import firebase, { database } from './firebaseConfig';
+import { getAuth } from 'firebase/auth'; // Import Firebase Authentication methods
+import { ref, set, onValue, off } from 'firebase/database';
 import Toolbar from './Toolbar';
+import 'firebase/auth';
+
 
 const RecipeDetails = ({ route }) => {
   const { recipeId } = route.params;
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
-    const fetchRecipe = async () => {
-      const database = getDatabase();
-      const recipeRef = ref(database, `recipes/${recipeId}`);
+    const recipeRef = ref(database, `recipes/${recipeId}`);
       
-      const onValueChange = snapshot => {
-        if (snapshot.exists()) {
-          setRecipe(snapshot.val());
-        }
+    const onValueChange = snapshot => {
+      if (snapshot.exists()) {
+        setRecipe(snapshot.val());
       }
+    }
 
-      onValue(recipeRef, onValueChange);
+    onValue(recipeRef, onValueChange);
       
-      return () => off(recipeRef, 'value', onValueChange);
-    };
-
-    fetchRecipe();
+    return () => off(recipeRef, 'value', onValueChange);
   }, [recipeId]);
 
   if (!recipe) {
@@ -35,15 +34,33 @@ const RecipeDetails = ({ route }) => {
   const minutes = totalTime % 60;
 
   let displayTime;
-if (hours > 0) {
-  displayTime = `${hours} hours ${minutes} minutes`;
-} else {
-  displayTime = `${minutes} minutes`;
-}
+  if (hours > 0) {
+    displayTime = `${hours} hours ${minutes} minutes`;
+  } else {
+    displayTime = `${minutes} minutes`;
+  }
+
+  const handleSave = async () => {
+    try {
+      const user = getAuth().currentUser;
+  
+      if (!user) {
+        throw new Error('User is not authenticated');
+      }
+  
+      const savedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
+      await set(savedRecipeRef, recipe);
+      Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
+  
+    } catch (error) {
+      Alert.alert('Failed to save recipe', `An error occurred while saving the recipe: ${error.message}`);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.content}>
+        <Button title="Save Recipe" onPress={handleSave} />
         <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
         <Text style={styles.recipeName}>{recipe.recipeName}</Text>
         <Text style={styles.recipeDescription}>{recipe.description}</Text>
@@ -65,7 +82,6 @@ if (hours > 0) {
       {/* Toolbar */}
       <Toolbar />
     </SafeAreaView>
-    
   );
 };
 
@@ -92,7 +108,6 @@ const styles = StyleSheet.create({
       fontSize: 16,
       marginBottom: 10,
     },
-    
     heading: {
       fontSize: 20,
       fontWeight: 'bold',
