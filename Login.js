@@ -37,8 +37,6 @@ const Login = () => {
             // Sign in the user with the provided email and password
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // User login successful, you can now access the user data using `userCredential.user`
-                    console.log('User login successful:', userCredential.user);
                     // Navigate to the home page after successful login
                     navigation.navigate('HomeScreen');
                 })

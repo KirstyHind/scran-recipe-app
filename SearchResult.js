@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { getDatabase, ref, query, orderByChild, startAt, endAt, onValue } from 'firebase/database'; // Import Firebase Realtime Database methods
+import { getDatabase, ref, query, orderByChild, startAt, endAt, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
 
 const SearchResult = ({ route }) => {
   const { keyword } = route.params;
@@ -20,8 +20,8 @@ const SearchResult = ({ route }) => {
       startAt(searchQuery),
       endAt(searchQuery + '\uf8ff')
     );
-    // Listen for changes to the searchQueryQuery and update the searchResults state accordingly
-    onValue(searchQueryQuery, (snapshot) => {
+
+    const onValueChange = snapshot => {
       if (snapshot.exists()) {
         // Convert the snapshot data into an array of search results
         const data = snapshot.val();
@@ -31,16 +31,26 @@ const SearchResult = ({ route }) => {
         // No results found
         setSearchResults([]);
       }
-    });
+    }
+
+    // Listen for changes to the searchQueryQuery and update the searchResults state accordingly
+    onValue(searchQueryQuery, onValueChange);
+
+    // Return a cleanup function to remove the listener
+    return () => off(searchQueryRef, 'value', onValueChange);
   };
 
   // useEffect hook to fetch search results when the component mounts or when the keyword changes
   useEffect(() => {
+    let cleanup;
     if (keyword.trim() !== '') {
-      fetchSearchResults(keyword);
+      cleanup = fetchSearchResults(keyword);
     } else {
       setSearchResults([]); // Clear the search results if the search query is empty
     }
+
+    // Cleanup function to be called when the component unmounts
+    return cleanup;
   }, [keyword]);
 
   return (

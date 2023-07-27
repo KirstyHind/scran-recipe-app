@@ -13,6 +13,13 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // Function to check if the email is in the correct format
+    const isEmailValid = (email) => {
+        // Regular expression to validate the email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     // Function to handle user registration
     const handleRegistration = () => {
         // Get the Firebase Auth instance
@@ -20,25 +27,35 @@ const Register = () => {
 
         // Check if the email and password fields are not empty
         if (email.trim() !== '' && password.trim() !== '') {
+            // Check if the email is in the correct format
+            if (!isEmailValid(email)) {
+                // Show an error pop-up if email is not in the correct format
+                Alert.alert('Error', 'Invalid email format. Please enter a valid email.');
+                return;
+            }
+
+            // Check if the password is at least 6 characters long
+            if (password.length < 6) {
+                // Show an error pop-up if password is less than 6 characters
+                Alert.alert('Error', 'Password should be at least 6 characters long.');
+                return;
+            }
+
             // Create a new user account with the provided email and password
             createUserWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
-                    // User registration successful, you can now access the user data using `userCredential.user`
-                    console.log('User registration successful:', userCredential.user);
                     // Show the success message in a pop-up
                     Alert.alert('Success', 'Account created successfully!');
                     // Navigate to the home page after successful registration
                     navigation.navigate('Home');
                 })
                 .catch((error) => {
-                    // Handle any errors that occurred during registration
-                    console.error('Registration error:', error.message);
                     // Show the error message in a pop-up
                     Alert.alert('Error', 'Email already in use. Please use a different email.');
                 });
         } else {
-            // Handle the case where email or password is empty
-            console.warn('Please enter a valid email and password.');
+            // Show an error pop-up if email or password is empty
+            Alert.alert('Error', 'Please enter a valid email and password.');
         }
     };
 
