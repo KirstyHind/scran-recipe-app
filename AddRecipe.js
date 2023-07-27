@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView } from 'react-native';
-import firebase from 'firebase/app'; // Import only the "app" module from Firebase
+import firebase, { database } from './firebaseConfig';
+import { ref, set, push } from 'firebase/database';
 import 'firebase/compat/database';
 import Toolbar from './Toolbar';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -20,43 +21,33 @@ const AddRecipe = ({ navigation }) => {
   // Function to save the recipe to Firebase Realtime Database
   const saveRecipeToFirebase = () => {
     try {
-      // Log the values of the variables before saving to the database
-      console.log("Recipe Name:", recipeName);
-      console.log("Description:", description);
-      console.log("Ingredients:", ingredients);
-      console.log("Servings:", servings);
-      console.log("Cooking Instructions:", cookingInstructions);
-      console.log("Cuisine:", cuisine);
-      console.log("Preparation Time:", prepTime);
-      console.log("Cooking Time:", cookTime);
-      console.log("Meal Type:", mealType);
+      const recipesRef = ref(database, 'recipes');
 
-      // Get a reference to the "recipes" node in Firebase Realtime Database
-      const recipesRef = firebase.database().ref('recipes');
+      const ingredientsArray = ingredients.split(',').map(item => item.trim()); // Convert the string to an array
 
-      // Create a new recipe entry with the provided data
-      const newRecipeRef = recipesRef.push({
+      const newRecipe = {
         recipeName,
         description,
-        ingredients,
-        servings,
+        ingredients: ingredientsArray, // Save the ingredients as an array
+        servings: parseInt(servings), // Save the servings as a number
         cookingInstructions,
         cuisine,
-        prepTime,
-        cookTime,
+        prepTime: parseInt(prepTime), // Save the prep time as a number
+        cookTime: parseInt(cookTime), // Save the cook time as a number
         mealType,
-      });
+      };
 
-      // Show an alert when the recipe is successfully saved
+      set(push(recipesRef), newRecipe);
+
       Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
 
-      // Redirect the user to the home page (you may customize this based on your navigation setup)
       navigation.navigate('Home');
     } catch (error) {
-      // Show an alert if there was an error saving the recipe
+      console.error('Failed to save recipe', error.message);
       Alert.alert('Failed to save recipe', 'An error occurred while saving the recipe.');
     }
   };
+
 
   return (
     <SafeAreaView style={styles.container}>

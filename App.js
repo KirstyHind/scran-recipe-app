@@ -9,18 +9,16 @@ import HomeScreen from './HomeScreen'; // Import the HomeScreen component
 import SearchResult from './SearchResult'; // Import the SearchResult component
 import AddRecipe from './AddRecipe'; // Import the AddRecipe component
 import Toolbar from './Toolbar'; // Import the Toolbar component
-import { initializeApp } from 'firebase/app'; // Import initializeApp from Firebase
-import 'firebase/auth'; // Import the auth module
-import 'firebase/database'; // Import the app module
-import firebaseConfig from './firebaseConfig'; // Import the firebaseConfig object
+import firebase from './firebaseConfig'; // Import the firebaseConfig object
+import { AppRegistry } from 'react-native';
+import { name as appName } from './app.json';
 
-// Initialize the Firebase app
-const app = initializeApp(firebaseConfig);
+AppRegistry.registerComponent(appName, () => MainApp);
 
 const Stack = createStackNavigator();
 
-// Main component representing the whole app
-export default function App() {
+// Main component representing the whole app 
+export default function MainApp() {
   return (
     // Wrap the app in the NavigationContainer to enable navigation
     <NavigationContainer>
