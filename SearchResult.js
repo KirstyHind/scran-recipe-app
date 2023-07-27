@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { getDatabase, ref, query, orderByChild, startAt, endAt, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
 
 const SearchResult = ({ route }) => {
@@ -59,8 +59,11 @@ const SearchResult = ({ route }) => {
       {searchResults.length > 0 ? (
         searchResults.map((recipe) => (
           <View key={recipe.id} style={styles.recipeContainer}>
-            <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-            <Text style={styles.recipeDescription}>{recipe.description}</Text>
+            <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+            <View style={styles.recipeDetails}>
+              <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+              <Text style={styles.recipeDescription}>{recipe.description}</Text>
+            </View>
           </View>
         ))
       ) : (
@@ -87,6 +90,25 @@ const styles = StyleSheet.create({
   recipeDescription: {
     fontSize: 16,
     marginBottom: 10,
+  },
+  recipeContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  recipeImage: {
+    width: 100,
+    height: 100,
+    marginRight: 10,
+  },
+  recipeDetails: {
+    flex: 1,
+  },
+  recipeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  recipeDescription: {
+    fontSize: 16,
   },
 });
 
