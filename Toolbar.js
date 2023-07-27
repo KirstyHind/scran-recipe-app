@@ -20,7 +20,7 @@ const handleHomeButtonPress = () => {
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => console.log('Button 2 clicked')}>
-        <Image source={require('scran-recipe-app/assets/save.png')} style={styles.toolbarButton} />
+        <Image source={require('scran-recipe-app/assets/save_toolbar.png')} style={styles.toolbarButton} />
       </TouchableOpacity>
 
       <TouchableOpacity onPress={handleAddRecipeButtonPress}>

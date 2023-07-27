@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Button, Alert, TouchableOpacity } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { getAuth } from 'firebase/auth'; // Import Firebase Authentication methods
 import { ref, set, onValue, off } from 'firebase/database';
@@ -10,6 +10,7 @@ import 'firebase/auth';
 const RecipeDetails = ({ route }) => {
   const { recipeId } = route.params;
   const [recipe, setRecipe] = useState(null);
+  const [isSaved, setIsSaved] = useState(false); // State to track whether the recipe is saved or not
 
   useEffect(() => {
     const recipeRef = ref(database, `recipes/${recipeId}`);
@@ -51,6 +52,7 @@ const RecipeDetails = ({ route }) => {
       const savedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
       await set(savedRecipeRef, recipe);
       Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
+      setIsSaved(true); // Set the recipe as saved
   
     } catch (error) {
       Alert.alert('Failed to save recipe', `An error occurred while saving the recipe: ${error.message}`);
@@ -60,9 +62,16 @@ const RecipeDetails = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.content}>
-        <Button title="Save Recipe" onPress={handleSave} />
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+          <TouchableOpacity onPress={handleSave}>
+            <Image 
+              source={isSaved ? require('scran-recipe-app/assets/savedrecipe.png') : require('scran-recipe-app/assets/save.png')} 
+              style={{ width: 60, height: 60, }} 
+            />
+          </TouchableOpacity>
+        </View>
         <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-        <Text style={styles.recipeName}>{recipe.recipeName}</Text>
         <Text style={styles.recipeDescription}>{recipe.description}</Text>
         <Text style={styles.prepTime}>Prep Time: {recipe.prepTime} minutes</Text>
         <Text style={styles.cookTime}>Cook Time: {recipe.cookTime} minutes</Text>
@@ -93,6 +102,7 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingBottom: 120,
     },
+    
     recipeImage: {
       width: '100%',
       height: 200,
