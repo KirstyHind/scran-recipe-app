@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
-import { getDatabase, ref, query, orderByChild, startAt, endAt, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
+import { getDatabase, ref, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
 
 const SearchResult = ({ route }) => {
   const { keyword } = route.params;
@@ -8,43 +8,40 @@ const SearchResult = ({ route }) => {
   // State to store the search results
   const [searchResults, setSearchResults] = useState([]);
 
-  // Function to fetch search results from Firebase database based on the search query
-  const fetchSearchResults = (searchQuery) => {
+  // Function to fetch all recipes from Firebase database and filter based on the keyword
+  const fetchAllRecipes = () => {
     const database = getDatabase();
-
-    // Create a query to search for recipes with a title containing the searchQuery
-    const searchQueryRef = ref(database, 'recipes');
-    const searchQueryQuery = query(
-      searchQueryRef,
-      orderByChild('recipeName'),
-      startAt(searchQuery),
-      endAt(searchQuery + '\uf8ff')
-    );
+    const recipesRef = ref(database, 'recipes');
 
     const onValueChange = snapshot => {
       if (snapshot.exists()) {
-        // Convert the snapshot data into an array of search results
         const data = snapshot.val();
-        const results = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
+        const allRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
+
+        const results = allRecipes.filter((recipe) => 
+          (recipe.recipeName && recipe.recipeName.toLowerCase().includes(keyword.toLowerCase())) ||
+          (recipe.description && recipe.description.toLowerCase().includes(keyword.toLowerCase())) ||
+          (recipe.ingredients && recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(keyword.toLowerCase()))) ||
+          (recipe.mealType && recipe.mealType.toLowerCase().includes(keyword.toLowerCase())) ||
+          (recipe.cuisine && recipe.cuisine.toLowerCase().includes(keyword.toLowerCase()))
+        );
+
         setSearchResults(results);
       } else {
-        // No results found
         setSearchResults([]);
       }
     }
 
-    // Listen for changes to the searchQueryQuery and update the searchResults state accordingly
-    onValue(searchQueryQuery, onValueChange);
+    onValue(recipesRef, onValueChange);
 
     // Return a cleanup function to remove the listener
-    return () => off(searchQueryRef, 'value', onValueChange);
+    return () => off(recipesRef, 'value', onValueChange);
   };
 
-  // useEffect hook to fetch search results when the component mounts or when the keyword changes
   useEffect(() => {
     let cleanup;
     if (keyword.trim() !== '') {
-      cleanup = fetchSearchResults(keyword);
+      cleanup = fetchAllRecipes();
     } else {
       setSearchResults([]); // Clear the search results if the search query is empty
     }
