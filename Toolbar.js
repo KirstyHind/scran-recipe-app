@@ -8,10 +8,14 @@ const Toolbar = () => {
 const handleAddRecipeButtonPress = () => {
     navigation.navigate('AddRecipe'); // Navigate to the AddRecipe screen
   };
+
+const handleHomeButtonPress = () => {
+  navigation.navigate('HomeScreen'); // Navigate to the HomeScreen screen
+};
   
   return (
     <View style={styles.toolbar}>
-      <TouchableOpacity onPress={() => console.log('Button 1 clicked')}>
+      <TouchableOpacity onPress={handleHomeButtonPress}>
         <Image source={require('scran-recipe-app/assets/home.png')} style={styles.toolbarButton} />
       </TouchableOpacity>
 

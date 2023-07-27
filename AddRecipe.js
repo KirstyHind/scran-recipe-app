@@ -50,7 +50,6 @@ const AddRecipe = ({ navigation }) => {
     }
   };
 
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
@@ -83,7 +82,8 @@ const AddRecipe = ({ navigation }) => {
         style={styles.input}
         placeholder="Servings"
         value={servings}
-        onChangeText={(text) => setServings(text)}
+        onChangeText={(text) => setServings(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+        keyboardType="numeric"
       />
 
       <TextInput
@@ -107,14 +107,16 @@ const AddRecipe = ({ navigation }) => {
         style={styles.input}
         placeholder="Preparation Time (Minutes)"
         value={prepTime}
-        onChangeText={(text) => setPrepTime(text)}
+        onChangeText={(text) => setPrepTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+        keyboardType="numeric"
       />
 
       <TextInput
         style={styles.input}
         placeholder="Cooking Time (Minutes)"
         value={cookTime}
-        onChangeText={(text) => setCookTime(text)}
+        onChangeText={(text) => setCookTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+        keyboardType="numeric"
       />
 
       <TextInput
