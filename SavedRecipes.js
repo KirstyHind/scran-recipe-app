@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
+import Toolbar from './Toolbar';
 
 const SavedRecipes = () => {
   const navigation = useNavigation();
@@ -52,8 +53,11 @@ const SavedRecipes = () => {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>No saved recipes.</Text>
+        <Text style={styles.noRecText}>No saved recipes.</Text>
       )}
+
+      {/* Toolbar */}
+      <Toolbar />
     </View>
   );
 };
@@ -61,12 +65,14 @@ const SavedRecipes = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
   },
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
+    padding: 20,
+  },
+  noRecText: {
+    paddingLeft: 20,
   },
   recipeContainer: {
     flexDirection: 'row',
@@ -79,6 +85,7 @@ const styles = StyleSheet.create({
   },
   recipeDetails: {
     flex: 1,
+    padding: 20,
   },
   recipeName: {
     fontSize: 18,

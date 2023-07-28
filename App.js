@@ -14,6 +14,7 @@ import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
 import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
+import Settings from './Settings'
 
 AppRegistry.registerComponent(appName, () => MainApp);
 
@@ -72,11 +73,18 @@ export default function MainApp() {
           options={{ title: 'Recipe Details' }} // Customize the header title
         />
 
-        {/* savedRecipes */}
+        {/* SavedRecipes */}
         <Stack.Screen
           name="SavedRecipes" // Name for the screen 
           component={SavedRecipes} // Component to be rendered
           options={{ title: 'Saved Recipes' }} // Customize the header title
+        />
+
+        {/* Settings */}
+        <Stack.Screen
+          name="Settings" // Name for the screen 
+          component={Settings} // Component to be rendered
+          options={{ title: 'Settings' }} // Customize the header title
         />
 
         {/* Toolbar */}

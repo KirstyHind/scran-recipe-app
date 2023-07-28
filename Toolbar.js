@@ -17,6 +17,10 @@ const Toolbar = () => {
     navigation.navigate('SavedRecipes'); // Navigate to the SavedRecipes screen
   };
 
+  const handleSettingsButtonPress = () => {
+    navigation.navigate('Settings'); // Navigate to the SavedRecipes screen
+  };
+
   return (
     <View style={styles.toolbar}>
       <TouchableOpacity onPress={handleHomeButtonPress}>
@@ -31,7 +35,7 @@ const Toolbar = () => {
         <Image source={require('scran-recipe-app/assets/plus.png')} style={styles.toolbarButton} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => console.log('Button 4 clicked')}>
+      <TouchableOpacity onPress={handleSettingsButtonPress}>
         <Image source={require('scran-recipe-app/assets/setting.png')} style={styles.toolbarButton} />
       </TouchableOpacity>
     </View>
