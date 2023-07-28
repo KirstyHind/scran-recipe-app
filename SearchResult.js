@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
 import { getDatabase, ref, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
 import { useNavigation } from '@react-navigation/native';
 
@@ -9,6 +9,15 @@ const SearchResult = ({ route }) => {
 
   // State to store the search results
   const [searchResults, setSearchResults] = useState([]);
+
+  // State to store the search query
+  const [searchQuery, setSearchQuery] = useState(keyword || '');  // Initialize with keyword from HomeScreen
+
+  // Function to handle search input change
+  const handleSearchInputChange = (text) => {
+    // Set the search query in the state
+    setSearchQuery(text);
+  };
 
   // Function to fetch all recipes from Firebase database and filter based on the keyword
   const fetchAllRecipes = () => {
@@ -21,11 +30,11 @@ const SearchResult = ({ route }) => {
         const allRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
 
         const results = allRecipes.filter((recipe) =>
-          (recipe.recipeName && recipe.recipeName.toLowerCase().includes(keyword.toLowerCase())) ||
-          (recipe.description && recipe.description.toLowerCase().includes(keyword.toLowerCase())) ||
-          (recipe.ingredients && recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(keyword.toLowerCase()))) ||
-          (recipe.mealType && recipe.mealType.toLowerCase().includes(keyword.toLowerCase())) ||
-          (recipe.cuisine && recipe.cuisine.toLowerCase().includes(keyword.toLowerCase()))
+          (recipe.recipeName && recipe.recipeName.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (recipe.description && recipe.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (recipe.ingredients && recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchQuery.toLowerCase()))) ||
+          (recipe.mealType && recipe.mealType.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (recipe.cuisine && recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase()))
         );
 
         setSearchResults(results);
@@ -42,7 +51,7 @@ const SearchResult = ({ route }) => {
 
   useEffect(() => {
     let cleanup;
-    if (keyword.trim() !== '') {
+    if (searchQuery.trim() !== '') {
       cleanup = fetchAllRecipes();
     } else {
       setSearchResults([]); // Clear the search results if the search query is empty
@@ -50,10 +59,19 @@ const SearchResult = ({ route }) => {
 
     // Cleanup function to be called when the component unmounts
     return cleanup;
-  }, [keyword]);
+  }, [searchQuery]);
 
   return (
     <View style={styles.container}>
+      {/* Search */}
+      <View style={styles.searchContainer}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search"
+          onChangeText={handleSearchInputChange}
+          value={searchQuery}
+        />
+      </View>
       <Text style={styles.heading}>Search Results for: {keyword}</Text>
       {searchResults.length > 0 ? (
         searchResults.map((recipe) => (
@@ -110,6 +128,22 @@ const styles = StyleSheet.create({
   },
   recipeDescription: {
     fontSize: 16,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 40,
+    justifyContent: 'center',
+    padding: 10,
+  },
+  searchInput: {
+    flex: 1,
+    height: 48,
+    borderColor: '#000000',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginRight: 10,
   },
 });
 
