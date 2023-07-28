@@ -45,6 +45,13 @@ const HomeScreen = () => {
     }
   };
 
+  // Function to handle submit event of the search input field
+  const handleSubmitEditing = () => {
+    if (searchQuery.trim() !== '') {
+      handleSearchButtonPress();
+    }
+  };
+
   // Effect hook to get the user's email when the component mounts
   useEffect(() => {
     const auth = getAuth();
@@ -90,6 +97,7 @@ const HomeScreen = () => {
           style={styles.searchInput}
           placeholder="Search"
           onChangeText={handleSearchInputChange}
+          onSubmitEditing={handleSubmitEditing}
           value={searchQuery}
         />
         <TouchableOpacity style={styles.searchButton} onPress={handleSearchButtonPress}>
