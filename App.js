@@ -86,7 +86,7 @@ export default function MainApp() {
 function Home({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>Welcome to Scran Recipe App</Text>
+      <Text style={styles.welcomeText}>Welcome!</Text>
       {/* Button to navigate to the Login screen */}
       <Button
         title="Login"
@@ -109,5 +109,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  content: {
+    padding: 20,
+    paddingBottom: 120,
+  },
+  welcomeText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    height: 400,
   },
 });
