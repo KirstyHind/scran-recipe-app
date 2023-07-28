@@ -1,60 +1,93 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, View, Text, StyleSheet, TouchableOpacity, SectionList, TextInput } from 'react-native';
+import { getAuth, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 
-const Settings = ({navigation}) => {
-  
-  // Function to handle Account Settings press
-  const handleAccountSettingsPress = () => {
-    // You can navigate to Account Settings screen if you have it
-    // navigation.navigate('AccountSettings');
-    console.log("Navigate to Account Settings");
-  };
 
-  // Function to handle User Settings press
-  const handleUserSettingsPress = () => {
-    // You can navigate to User Settings screen if you have it
-    // navigation.navigate('UserSettings');
-    console.log("Navigate to User Settings");
-  };
+const Settings = () => {
+    const [settings, setSettings] = useState([
+        {
+            title: 'Account Settings',
+            data: [
+                { id: '1', name: 'Change Email', expanded: false, email: '', confirmEmail: '' },
+                { id: '2', name: 'Change Password', expanded: false, password: '', confirmPassword: '' },
+            ],
+        },
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.headerText}>Settings</Text>
+        {
+            title: 'User Settings',
+            data: [
+                { id: '3', name: 'Notifications', expanded: false },
+                { id: '4', name: 'Profile', expanded: false },
+            ],
+        },
+    ]);
 
-      <TouchableOpacity style={styles.settingOption} onPress={handleAccountSettingsPress}>
-        <Text style={styles.optionText}>Account Settings</Text>
-      </TouchableOpacity>
+    const handlePress = (sectionIndex, itemIndex) => {
+        setSettings((prevSettings) => {
+            const newSettings = [...prevSettings];
+            newSettings[sectionIndex].data[itemIndex].expanded = !newSettings[sectionIndex].data[itemIndex].expanded;
+            return newSettings;
+        });
+    };
 
-      <TouchableOpacity style={styles.settingOption} onPress={handleUserSettingsPress}>
-        <Text style={styles.optionText}>User Settings</Text>
-      </TouchableOpacity>
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+            <Text style={styles.headerText}>Settings</Text>
+            <SectionList
+                sections={settings}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item, index, section }) => (
+                    <TouchableOpacity style={styles.settingOption} onPress={() => handlePress(section.title === 'Account Settings' ? 0 : 1, index)}>
+                        <Text style={styles.optionText}>{item.name}</Text>
+                        {item.expanded && <Text style={styles.text}>Details of {item.name}</Text>}
+                    </TouchableOpacity>
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                    <Text style={styles.sectionHeader}>{title}</Text>
+                )}
+            />
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 50,
-  },
-  settingOption: {
-    backgroundColor: '#000000',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginVertical: 10,
-  },
-  optionText: {
-    color: '#fff',
-    fontSize: 18,
-  },
+    container: {
+        flex: 1,
+        paddingTop: 22,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    headerText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 50,
+    },
+    settingOption: {
+        backgroundColor: '#000000',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        marginVertical: 10,
+    },
+    optionText: {
+        color: '#fff',
+        fontSize: 18,
+    },
+    sectionHeader: {
+        paddingTop: 2,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 2,
+        fontSize: 14,
+        fontWeight: 'bold',
+        backgroundColor: 'rgba(247,247,247,1.0)',
+    },
+    text: {
+        fontSize: 16,
+        padding: 10,
+        color: '#fff',
+    },
 });
 
 export default Settings;
