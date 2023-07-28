@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Button, Alert, TouchableOpacity } from 'react-native';
 import firebase, { database } from './firebaseConfig';
-import { getAuth } from 'firebase/auth'; // Import Firebase Authentication methods
+import { getAuth } from 'firebase/auth';
 import { ref, set, onValue, off } from 'firebase/database';
 import Toolbar from './Toolbar';
 import 'firebase/auth';
@@ -13,8 +13,16 @@ const RecipeDetails = ({ route }) => {
   const [isSaved, setIsSaved] = useState(false); // State to track whether the recipe is saved or not
 
   useEffect(() => {
-    const recipeRef = ref(database, `recipes/${recipeId}`);
+    const user = getAuth().currentUser;
 
+    if (!user) {
+      throw new Error('User is not authenticated');
+    }
+
+    const recipeRef = ref(database, `recipes/${recipeId}`);
+    const userSavedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
+
+    // Listen for changes in the recipe data
     const onValueChange = snapshot => {
       if (snapshot.exists()) {
         setRecipe(snapshot.val());
@@ -23,7 +31,17 @@ const RecipeDetails = ({ route }) => {
 
     onValue(recipeRef, onValueChange);
 
-    return () => off(recipeRef, 'value', onValueChange);
+    // Check if the user has already saved this recipe
+    const checkSavedRecipe = snapshot => {
+      setIsSaved(snapshot.exists());
+    }
+
+    onValue(userSavedRecipeRef, checkSavedRecipe);
+
+    return () => {
+      off(recipeRef, 'value', onValueChange);
+      off(userSavedRecipeRef, 'value', checkSavedRecipe);
+    }
   }, [recipeId]);
 
   if (!recipe) {
