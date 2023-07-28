@@ -13,6 +13,7 @@ import firebase from './firebaseConfig'; // Import the firebaseConfig object
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
 import RecipeDetails from './RecipeDetails';
+import SavedRecipes from './SavedRecipes';
 
 AppRegistry.registerComponent(appName, () => MainApp);
 
@@ -69,6 +70,13 @@ export default function MainApp() {
           name="RecipeDetails" // Name for the screen 
           component={RecipeDetails} // Component to be rendered
           options={{ title: 'Recipe Details' }} // Customize the header title
+        />
+
+        {/* savedRecipes */}
+        <Stack.Screen
+          name="SavedRecipes" // Name for the screen 
+          component={SavedRecipes} // Component to be rendered
+          options={{ title: 'Saved Recipes' }} // Customize the header title
         />
 
         {/* Toolbar */}

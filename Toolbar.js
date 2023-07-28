@@ -13,13 +13,17 @@ const Toolbar = () => {
     navigation.navigate('HomeScreen'); // Navigate to the HomeScreen screen
   };
 
+  const handleSaveButtonPress = () => {
+    navigation.navigate('SavedRecipes'); // Navigate to the SavedRecipes screen
+  };
+
   return (
     <View style={styles.toolbar}>
       <TouchableOpacity onPress={handleHomeButtonPress}>
         <Image source={require('scran-recipe-app/assets/home.png')} style={styles.toolbarButton} />
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => console.log('Button 2 clicked')}>
+      <TouchableOpacity onPress={handleSaveButtonPress}>
         <Image source={require('scran-recipe-app/assets/save_toolbar.png')} style={styles.toolbarButton} />
       </TouchableOpacity>
 
