@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Button, Alert, TouchableOpacity } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { getAuth } from 'firebase/auth';
-import { ref, set, onValue, off } from 'firebase/database';
+import { ref, set, onValue, off, remove } from 'firebase/database';
 import Toolbar from './Toolbar';
 import 'firebase/auth';
-
 
 const RecipeDetails = ({ route }) => {
   const { recipeId } = route.params;
@@ -68,12 +67,20 @@ const RecipeDetails = ({ route }) => {
       }
 
       const savedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
-      await set(savedRecipeRef, recipe);
-      Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
-      setIsSaved(true); // Set the recipe as saved
 
+      if (isSaved) {
+        // If the recipe is already saved, remove it
+        await remove(savedRecipeRef);
+        Alert.alert('Recipe unsaved!', 'Your recipe has been successfully removed from saved recipes.');
+        setIsSaved(false); // Set the recipe as not saved
+      } else {
+        // If the recipe isn't saved, save it
+        await set(savedRecipeRef, recipe);
+        Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
+        setIsSaved(true); // Set the recipe as saved
+      }
     } catch (error) {
-      Alert.alert('Failed to save recipe', `An error occurred while saving the recipe: ${error.message}`);
+      Alert.alert('Failed to update saved recipes', `An error occurred while updating your saved recipes: ${error.message}`);
     }
   }
 
