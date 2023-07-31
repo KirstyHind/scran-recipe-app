@@ -1,8 +1,8 @@
-// Import necessary modules and hooks from React and React Native
+// Import necessary modules and hooks
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; // Import Firebase Authentication methods
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
 // Define the Register component
 const Register = () => {
@@ -100,5 +100,5 @@ const styles = StyleSheet.create({
     },
 });
 
-// Export the Register component as the default export
+// Export the Register component
 export default Register;

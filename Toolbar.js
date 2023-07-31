@@ -1,26 +1,34 @@
+// Import necessary modules and hooks
 import React from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+// Define the Toolbar component
 const Toolbar = () => {
+  // Hook to enable navigation
   const navigation = useNavigation();
 
+  // Handler for navigation to the 'AddRecipe' screen
   const handleAddRecipeButtonPress = () => {
-    navigation.navigate('AddRecipe'); // Navigate to the AddRecipe screen
+    navigation.navigate('AddRecipe');
   };
 
+  // Handler for navigation to the 'HomeScreen' screen
   const handleHomeButtonPress = () => {
-    navigation.navigate('HomeScreen'); // Navigate to the HomeScreen screen
+    navigation.navigate('HomeScreen');
   };
 
+  // Handler for navigation to the 'SavedRecipes' screen
   const handleSaveButtonPress = () => {
-    navigation.navigate('SavedRecipes'); // Navigate to the SavedRecipes screen
+    navigation.navigate('SavedRecipes');
   };
 
+  // Handler for navigation to the 'Settings' screen
   const handleSettingsButtonPress = () => {
-    navigation.navigate('Settings'); // Navigate to the SavedRecipes screen
+    navigation.navigate('Settings');
   };
 
+  // Render Toolbar component with navigation buttons
   return (
     <View style={styles.toolbar}>
       <TouchableOpacity onPress={handleHomeButtonPress}>
@@ -42,6 +50,7 @@ const Toolbar = () => {
   );
 };
 
+// Define styles for the Toolbar component
 const styles = StyleSheet.create({
   toolbar: {
     width: '100%',
@@ -65,4 +74,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Export the Toolbar component
 export default Toolbar;

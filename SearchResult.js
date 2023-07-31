@@ -1,34 +1,43 @@
+// Import necessary libraries and components
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
-import { getDatabase, ref, onValue, off } from 'firebase/database'; // Import Firebase Realtime Database methods
+import { getDatabase, ref, onValue, off } from 'firebase/database'; // Firebase Realtime Database methods
 import { useNavigation } from '@react-navigation/native';
 
+// SearchResult Component
 const SearchResult = ({ route }) => {
+  // Extract keyword from route parameters
   const { keyword } = route.params;
+  // Navigation hook
   const navigation = useNavigation();
 
   // State to store the search results
   const [searchResults, setSearchResults] = useState([]);
 
-  // State to store the search query
-  const [searchQuery, setSearchQuery] = useState(keyword || '');  // Initialize with keyword from HomeScreen
+  // State to store the search query initialised with the keyword from HomeScreen
+  const [searchQuery, setSearchQuery] = useState(keyword || '');
 
   // Function to handle search input change
   const handleSearchInputChange = (text) => {
-    // Set the search query in the state
+    // Update searchQuery state with entered text
     setSearchQuery(text);
   };
 
-  // Function to fetch all recipes from Firebase database and filter based on the keyword
+  // Function to fetch all recipes from Firebase database and filter based on searchQuery
   const fetchAllRecipes = () => {
     const database = getDatabase();
+    // Create reference to 'recipes' in database
     const recipesRef = ref(database, 'recipes');
 
+    // Function to handle value changes in recipes reference
     const onValueChange = snapshot => {
       if (snapshot.exists()) {
+        // Snapshot of the data from 'recipes' reference
         const data = snapshot.val();
+        // Convert data to array format
         const allRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
 
+        // Filter recipes based on searchQuery
         const results = allRecipes.filter((recipe) =>
           (recipe.recipeName && recipe.recipeName.toLowerCase().includes(searchQuery.toLowerCase())) ||
           (recipe.description && recipe.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -37,30 +46,36 @@ const SearchResult = ({ route }) => {
           (recipe.cuisine && recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase()))
         );
 
+        // Update searchResults with filtered recipes
         setSearchResults(results);
       } else {
+        // Clear searchResults if there are no matches
         setSearchResults([]);
       }
     }
-
+    // Attach listener to recipes reference
     onValue(recipesRef, onValueChange);
 
     // Return a cleanup function to remove the listener
     return () => off(recipesRef, 'value', onValueChange);
   };
 
+  // Call fetchAllRecipes whenever searchQuery is updated
   useEffect(() => {
     let cleanup;
+    // Call fetchAllRecipes if searchQuery is not empty
     if (searchQuery.trim() !== '') {
       cleanup = fetchAllRecipes();
+      // Clear the search results if the search query is empty
     } else {
-      setSearchResults([]); // Clear the search results if the search query is empty
+      setSearchResults([]);
     }
 
     // Cleanup function to be called when the component unmounts
     return cleanup;
   }, [searchQuery]);
 
+  // Render the SearchResult component
   return (
     <View style={styles.container}>
       {/* Search */}
@@ -92,6 +107,7 @@ const SearchResult = ({ route }) => {
   );
 };
 
+// Styling for the SearchResult component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -147,4 +163,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Export the SearchResult component
 export default SearchResult;

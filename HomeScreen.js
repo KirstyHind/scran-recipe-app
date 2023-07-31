@@ -1,9 +1,11 @@
+// Import necessary packages and components
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import Toolbar from './Toolbar';
 
+// Define the HomeScreen component
 const HomeScreen = () => {
   const navigation = useNavigation();
 
@@ -45,7 +47,7 @@ const HomeScreen = () => {
     }
   };
 
-  // Function to handle submit event of the search input field
+  // Function to handle submit of the search input field
   const handleSubmitEditing = () => {
     if (searchQuery.trim() !== '') {
       handleSearchButtonPress();
@@ -79,6 +81,7 @@ const HomeScreen = () => {
     }
   }, [userEmail]);
 
+  // Render the HomeScreen component
   return (
     <View style={styles.container}>
       {/* User Details */}
@@ -111,6 +114,7 @@ const HomeScreen = () => {
   );
 };
 
+// Styling for the HomeScreen component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -166,4 +170,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Export the HomeScreen component
 export default HomeScreen;

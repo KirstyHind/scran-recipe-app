@@ -1,12 +1,15 @@
+// Necessary React and React Native imports
 import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, push } from 'firebase/database';
 import 'firebase/compat/database';
+
+// Local component imports
 import Toolbar from './Toolbar';
 import { ScrollView } from 'react-native-gesture-handler';
 
-
+// AddRecipe component
 const AddRecipe = ({ navigation }) => {
   // State to store the recipe details
   const [recipeName, setRecipeName] = useState('');
@@ -19,37 +22,45 @@ const AddRecipe = ({ navigation }) => {
   const [cookTime, setCookTime] = useState('');
   const [mealType, setMealType] = useState('');
 
-  // Function to save the recipe to Firebase Realtime Database
+  // Function to save new recipe to Firebase
   const saveRecipeToFirebase = () => {
     try {
+      // Reference to 'recipes' in the Firebase database
       const recipesRef = ref(database, 'recipes');
 
-      const ingredientsArray = ingredients.split(',').map(item => item.trim()); // Convert the string to an array
-      const instructionsArray = cookingInstructions.split(',').map(item => item.trim()); // Convert the string to an array
+      // Making user input the desired format
+      const ingredientsArray = ingredients.split(',').map(item => item.trim());
+      const instructionsArray = cookingInstructions.split(',').map(item => item.trim());
 
+      // The new recipe object
       const newRecipe = {
         recipeName,
         description,
-        ingredients: ingredientsArray, // Save the ingredients as an array
-        servings: parseInt(servings), // Save the servings as a number
+        ingredients: ingredientsArray,
+        servings: parseInt(servings),
         cookingInstructions: instructionsArray,
         cuisine,
-        prepTime: parseInt(prepTime), // Save the prep time as a number
-        cookTime: parseInt(cookTime), // Save the cook time as a number
+        prepTime: parseInt(prepTime),
+        cookTime: parseInt(cookTime),
         mealType,
       };
 
+      // Save the new recipe in the Firebase database
       set(push(recipesRef), newRecipe);
 
+      // Notify user of successful save
       Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
 
+      // Redirect to home screen
       navigation.navigate('HomeScreen');
     } catch (error) {
+      // Log and notify user of error
       console.error('Failed to save recipe', error.message);
       Alert.alert('Failed to save recipe', 'An error occurred while saving the recipe.');
     }
   };
 
+  // Render the AddRecipe component
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
@@ -138,6 +149,7 @@ const AddRecipe = ({ navigation }) => {
   );
 };
 
+// Styling for the AddRecipe component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -171,4 +183,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// Export the AddRecipe component
 export default AddRecipe;

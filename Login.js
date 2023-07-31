@@ -1,21 +1,20 @@
-// Import necessary modules and hooks from React and React Native
+// Import necessary modules and hooks
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Import Firebase Authentication methods
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
-// Define the Login component
+// Define login component
 const Login = () => {
     // Use the useNavigation hook to access the navigation object
     const navigation = useNavigation();
-
     // State variables to store the user's email and password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     // Function to check if the email is in the correct format
     const isEmailValid = (email) => {
-        // Regular expression to validate the email format
+        // Expression to validate the email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
@@ -36,12 +35,12 @@ const Login = () => {
 
             // Sign in the user with the provided email and password
             signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+                .then(() => {
                     // Navigate to the home page after successful login
                     navigation.navigate('HomeScreen');
                 })
+                // Handle any errors that occurred during login
                 .catch((error) => {
-                    // Handle any errors that occurred during login
                     console.error('Login error:', error.message);
                     // Show an error pop-up if login failed
                     Alert.alert('Error', 'Invalid email or password. Please try again.');
@@ -52,10 +51,9 @@ const Login = () => {
         }
     };
 
-    // Render the Login component
+    // Render the login component
     return (
         <View style={styles.container}>
-            {/* Input fields for email and password */}
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -69,13 +67,12 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
-            {/* Login button to initiate user login */}
             <Button title="Login" onPress={handleLogin} />
         </View>
     );
 };
 
-// Styling for the Login component
+// Define styles for the components
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -93,5 +90,5 @@ const styles = StyleSheet.create({
     },
 });
 
-// Export the Login component as the default export
+// Export the Login component
 export default Login;
