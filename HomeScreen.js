@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
-    padding: 20,
+    padding: 10,
     textAlign: 'left',
   },
   noRecText: {
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
   },
   recipeContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    padding: 10,
     width: 300,
     height: 150,
   },
