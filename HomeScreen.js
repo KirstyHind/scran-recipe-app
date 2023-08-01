@@ -22,6 +22,9 @@ const HomeScreen = () => {
   // State to store saved recipes
   const [savedRecipes, setSavedRecipes] = useState([]);
 
+  // State to store random recipes
+  const [randomRecipes, setRandomRecipes] = useState([]);
+
   // Fetch saved recipes function definition
   const fetchSavedRecipes = () => {
     // Get current user and database reference
@@ -41,7 +44,7 @@ const HomeScreen = () => {
         // Set empty recipes list if there's no data
         setSavedRecipes([]);
       }
-    }
+    };
 
     // Attach the value change listener
     onValue(savedRecipesRef, onValueChange);
@@ -55,6 +58,42 @@ const HomeScreen = () => {
     const cleanup = fetchSavedRecipes();
 
     return cleanup;
+  }, []);
+
+  const fetchRandomRecipes = () => {
+    const database = getDatabase();
+    const recipesRef = ref(database, `recipes`);
+
+    const onValueChange = snapshot => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const allRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
+
+        // Shuffle the array
+        const shuffled = allRecipes.sort(() => 0.5 - Math.random());
+
+        // Get sub-array of first n elements after shuffled
+        let selected = shuffled.slice(0, 5);
+
+        setRandomRecipes(selected);
+      } else {
+        setRandomRecipes([]);
+      }
+    }
+
+    onValue(recipesRef, onValueChange);
+
+    return () => off(recipesRef, 'value', onValueChange);
+  };
+
+  useEffect(() => {
+    const cleanupSaved = fetchSavedRecipes();
+    const cleanupRandom = fetchRandomRecipes();
+
+    return () => {
+      cleanupSaved();
+      cleanupRandom();
+    };
   }, []);
 
   // Function to handle logout
@@ -113,7 +152,7 @@ const HomeScreen = () => {
   useEffect(() => {
     if (userEmail) {
       // Extract the username from the email using split()
-      const usernameFromEmail = userEmail.split('.')[0];
+      const usernameFromEmail = userEmail.split('@')[0];
 
       // Set the username in the state
       setUsername(usernameFromEmail.charAt(0).toUpperCase() + usernameFromEmail.slice(1));
@@ -148,7 +187,7 @@ const HomeScreen = () => {
       </View>
 
       {/* Saved Recipes ScrollView */}
-      <Text style={styles.heading}>Your Saved Recipes:</Text>
+      <Text style={styles.heading}>Your Saved Recipes</Text>
       <ScrollView horizontal>
         {savedRecipes.length > 0 ? (
           savedRecipes.map((recipe) => (
@@ -167,18 +206,38 @@ const HomeScreen = () => {
         )}
       </ScrollView>
 
+      {/* Random Recipes */}
+      <Text style={styles.heading}>Discover New Recipes</Text>
+      <ScrollView horizontal={true}>
+        {randomRecipes.length > 0 ? (
+          randomRecipes.map((recipe) => (
+            <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
+              <View style={styles.recipeContainer}>
+                <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+                <View style={styles.recipeDetails}>
+                  <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+                  <Text style={styles.recipeDescription}>{recipe.description}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text style={styles.noRecText}>No recipes available.</Text>
+        )}
+      </ScrollView>
+
       {/* Toolbar */}
       <Toolbar />
     </View>
   );
 };
 
+
 // Styling for the HomeScreen component
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'flex-start',
     paddingTop: 50,
   },
@@ -227,11 +286,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
   },
-
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
     padding: 20,
+    textAlign: 'left',
   },
   noRecText: {
     paddingLeft: 20,
@@ -239,22 +298,25 @@ const styles = StyleSheet.create({
   recipeContainer: {
     flexDirection: 'row',
     marginBottom: 10,
+    width: 300,
+    height: 150,
   },
   recipeImage: {
-    width: 100,
-    height: 100,
+    width: 125,
+    height: 125,
     marginRight: 10,
   },
   recipeDetails: {
     flex: 1,
-    padding: 20,
+    padding: 10,
   },
   recipeName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   recipeDescription: {
-    fontSize: 16,
+    fontSize: 14,
   },
 });
 
