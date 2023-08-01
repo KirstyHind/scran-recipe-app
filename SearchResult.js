@@ -1,8 +1,9 @@
 // Import necessary libraries and components
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, ScrollView } from 'react-native';
 import { getDatabase, ref, onValue, off } from 'firebase/database'; // Firebase Realtime Database methods
 import { useNavigation } from '@react-navigation/native';
+import Toolbar from './Toolbar';
 
 // SearchResult Component
 const SearchResult = ({ route }) => {
@@ -77,7 +78,7 @@ const SearchResult = ({ route }) => {
 
   // Render the SearchResult component
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Search */}
       <View style={styles.searchContainer}>
         <TextInput
@@ -88,7 +89,8 @@ const SearchResult = ({ route }) => {
         />
       </View>
       <Text style={styles.heading}>Search Results for: {keyword}</Text>
-      {searchResults.length > 0 ? (
+      <ScrollView contentContainerStyle={styles.content}>
+        {searchResults.length > 0 ? (
         searchResults.map((recipe) => (
           <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
             <View style={styles.recipeContainer}>
@@ -103,7 +105,10 @@ const SearchResult = ({ route }) => {
       ) : (
         <Text>No results found.</Text>
       )}
-    </View>
+      </ScrollView>
+      {/* Toolbar */}
+      <Toolbar />
+    </SafeAreaView>
   );
 };
 
@@ -111,12 +116,12 @@ const SearchResult = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
   },
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
+    marginLeft: 20,
   },
   recipeTitle: {
     fontSize: 18,
@@ -134,6 +139,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginRight: 10,
+    marginLeft: 20,
   },
   recipeDetails: {
     flex: 1,

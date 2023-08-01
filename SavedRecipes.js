@@ -1,6 +1,6 @@
 // Import necessary packages and components
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
@@ -49,7 +49,8 @@ const SavedRecipes = () => {
 
     // Render the SavedRecipes component
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <ScrollView contentContainerStyle={styles.content}>
             <Text style={styles.heading}>Saved Recipes</Text>
             {savedRecipes.length > 0 ? (
                 savedRecipes.map((recipe) => (
@@ -66,10 +67,12 @@ const SavedRecipes = () => {
             ) : (
                 <Text style={styles.noRecText}>No saved recipes.</Text>
             )}
+            </ScrollView>
 
             {/* Toolbar */}
             <Toolbar />
-        </View>
+            </SafeAreaView>
+        
     );
 };
 
