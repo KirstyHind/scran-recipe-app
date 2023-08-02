@@ -152,7 +152,7 @@ const HomeScreen = () => {
   useEffect(() => {
     if (userEmail) {
       // Extract the username from the email using split()
-      const usernameFromEmail = userEmail.split('@')[0];
+      const usernameFromEmail = userEmail.split('.')[0];
 
       // Set the username in the state
       setUsername(usernameFromEmail.charAt(0).toUpperCase() + usernameFromEmail.slice(1));

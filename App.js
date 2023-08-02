@@ -16,6 +16,8 @@ import { name as appName } from './app.json';
 import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
 import Settings from './Settings';
+import PreloadImages from './PreloadImages';
+
 
 // Register the MainApp component as the main application component
 AppRegistry.registerComponent(appName, () => MainApp);
@@ -29,6 +31,7 @@ export default function MainApp() {
   return (
     // Wrap the app in the NavigationContainer to enable navigation
     <NavigationContainer>
+      <PreloadImages />
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ headerShown: true }} />
         <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
