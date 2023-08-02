@@ -121,6 +121,8 @@ const RecipeDetails = ({ route }) => {
         <Text style={styles.servings}>Servings: {recipe.servings}</Text>
         <Text style={styles.cuisine}>Cuisine: {recipe.cuisine}</Text>
         <Text style={styles.mealType}>Meal Type: {recipe.mealType}</Text>
+        <Text style={styles.difficulty}>Difficulty: {recipe.difficulty}</Text>
+        <Text style={styles.dietaryRequirements}>Dietary Requirements: {recipe.dietaryRequirements}</Text>
         <Text style={styles.heading}>Ingredients:</Text>
         {recipe.ingredients.map((ingredient, index) => (
           <Text key={index}>{ingredient}</Text>

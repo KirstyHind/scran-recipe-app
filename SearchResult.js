@@ -45,6 +45,8 @@ const SearchResult = ({ route }) => {
           (recipe.ingredients && recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchQuery.toLowerCase()))) ||
           (recipe.mealType && recipe.mealType.toLowerCase().includes(searchQuery.toLowerCase())) ||
           (recipe.cuisine && recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase()))
+          (recipe.difficulty && recipe.difficulty.toLowerCase().includes(searchQuery.toLowerCase()))
+          (recipe.dietaryRequirements && recipe.dietaryRequirements.toLowerCase().includes(searchQuery.toLowerCase()))
         );
 
         // Update searchResults with filtered recipes
