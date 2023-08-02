@@ -1,6 +1,6 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -68,7 +68,9 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
-            <Button title="Login" onPress={handleLogin} />
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomeScreen')}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -77,6 +79,7 @@ const Login = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
@@ -89,6 +92,22 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 5,
     },
+    button: {
+        backgroundColor: '#fcf3cf',
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        borderRadius: 5,
+        margin: 5,
+        minWidth: 200,
+        minHeight: 50,
+        textAlign: 'center',
+      },
+      buttonText: {
+        color: '#000000',
+        fontSize: 16,
+        textAlign: 'center',
+        fontWeight: 'bold',
+      },
 });
 
 // Export the Login component
