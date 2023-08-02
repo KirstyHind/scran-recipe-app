@@ -125,11 +125,18 @@ const RecipeDetails = ({ route }) => {
         <Text style={styles.dietaryRequirements}>Dietary Requirements: {recipe.dietaryRequirements}</Text>
         <Text style={styles.heading}>Ingredients:</Text>
         {recipe.ingredients.map((ingredient, index) => (
-          <Text key={index}>{ingredient}</Text>
+          <View key={index}>
+          <Text>{ingredient}</Text>
+          <Text>{'\n'}</Text>
+        </View>
+          
         ))}
         <Text style={styles.heading}>Cooking Instructions:</Text>
         {recipe.instructions.map((instruction, index) => (
-          <Text key={index}>{instruction}</Text>
+          <View key={index}>
+          <Text>{`${index+1}. ${instruction}`}</Text>
+          <Text>{'\n'}</Text>
+        </View>
         ))}
       </ScrollView>
       {/* Toolbar */}
@@ -147,7 +154,6 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingBottom: 120,
   },
-
   recipeImage: {
     width: '100%',
     height: 200,
@@ -160,6 +166,38 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   recipeDescription: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  prepTime: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  cookTime: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  totalTime: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  servings: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  cuisine: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  mealType: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  difficulty: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  dietaryRequirements: {
     fontSize: 16,
     marginBottom: 10,
   },
