@@ -1,11 +1,9 @@
-// Import necessary packages
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Button, Alert, TouchableOpacity } from 'react-native';
-import firebase, { database } from './firebaseConfig';
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
 import { getAuth } from 'firebase/auth';
+import firebase, { database } from './firebaseConfig';
 import { ref, set, onValue, off, remove } from 'firebase/database';
 import Toolbar from './Toolbar';
-import 'firebase/auth';
 
 // RecipeDetails Component
 const RecipeDetails = ({ route }) => {
@@ -25,80 +23,77 @@ const RecipeDetails = ({ route }) => {
       throw new Error('User is not authenticated');
     }
 
+    // Define references to the recipe and user saved recipes
     const recipeRef = ref(database, `recipes/${recipeId}`);
     const userSavedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
 
-    // Listen for changes in the recipe data
+    // Function to update the recipe state if a snapshot exists
     const onValueChange = snapshot => {
       if (snapshot.exists()) {
         setRecipe(snapshot.val());
       }
     }
 
+    // Set the onValue listener to update the recipe state
     onValue(recipeRef, onValueChange);
 
-    // Check if the user has already saved this recipe
+    // Function to update the isSaved state based on whether a snapshot exists
     const checkSavedRecipe = snapshot => {
       setIsSaved(snapshot.exists());
     }
 
+    // Set the onValue listener to check if the user has saved this recipe
     onValue(userSavedRecipeRef, checkSavedRecipe);
 
-    // Cleanup listeners
+    // Cleanup listeners when the component is unmounted
     return () => {
-      off(recipeRef, 'value', onValueChange);
-      off(userSavedRecipeRef, 'value', checkSavedRecipe);
+      off(recipeRef, onValueChange);
+      off(userSavedRecipeRef, checkSavedRecipe);
     }
-  }, [recipeId]);
+  }, [recipeId]); // Dependency array
 
-  // Loading message
+  // If the recipe is still loading, display a loading message
   if (!recipe) {
     return <Text>Loading...</Text>;
   }
 
-  // Calculate total recipe time
+  // Calculate total recipe time and format it for display
   const totalTime = recipe.prepTime + recipe.cookTime;
   const hours = Math.floor(totalTime / 60);
   const minutes = totalTime % 60;
-
-  // Set format for displayTime where if time is less than 60 minutes, hour is omitted
-  let displayTime;
-  if (hours > 0) {
-    displayTime = `${hours} hours ${minutes} minutes`;
-  } else {
-    displayTime = `${minutes} minutes`;
-  }
+  const displayTime = hours > 0 ? `${hours} hours ${minutes} minutes` : `${minutes} minutes`;
 
   // Handler for saving a recipe
   const handleSave = async () => {
-    try {
-      const user = getAuth().currentUser;
+    // Get the currently authenticated user
+    const user = getAuth().currentUser;
 
-      if (!user) {
-        throw new Error('User is not authenticated');
-      }
+    // Throw an error if user isn't authenticated
+    if (!user) {
+      throw new Error('User is not authenticated');
+    }
 
+      // Define reference to the user's saved recipes
       const savedRecipeRef = ref(database, `users/${user.uid}/savedRecipes/${recipeId}`);
 
-      if (isSaved) {
-        // If the recipe is already saved, remove it
-        await remove(savedRecipeRef);
-        Alert.alert('Recipe unsaved!', 'Your recipe has been successfully removed from saved recipes.');
-        // Set the recipe as not saved
-        setIsSaved(false);
-      } else {
-        // If the recipe isn't saved, save it
-        await set(savedRecipeRef, recipe);
-        Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
-        // Set the recipe as saved
-        setIsSaved(true);
+      try {
+        // Check if the recipe is saved
+        if (isSaved) {
+          // If saved, remove it from the saved recipes
+          await remove(savedRecipeRef);
+          Alert.alert('Recipe unsaved!', 'Your recipe has been successfully removed from saved recipes.');
+          setIsSaved(false); // Update isSaved state
+        } else {
+          // If not saved, save it
+          await set(savedRecipeRef, recipe);
+          Alert.alert('Recipe saved!', 'Your recipe has been successfully saved.');
+          setIsSaved(true); // Update isSaved state
+        }
+      } catch (error) {
+        // If an error occurs, alert the user
+        Alert.alert('Failed to update saved recipes', `An error occurred while updating your saved recipes: ${error.message}`);
       }
-    } 
-    // Error handling if saved recipes isn't updated
-    catch (error) {
-      Alert.alert('Failed to update saved recipes', `An error occurred while updating your saved recipes: ${error.message}`);
     }
-  }
 
   // Render the RecipeDetails component
   return (

@@ -8,11 +8,12 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 const Login = () => {
     // Use the useNavigation hook to access the navigation object
     const navigation = useNavigation();
-    // State variables to store the user's email and password
+
+    // Define state variables for email and password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    // Function to check if the email is in the correct format
+    // Function to check email format
     const isEmailValid = (email) => {
         // Expression to validate the email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,7 +22,7 @@ const Login = () => {
 
     // Function to handle user login
     const handleLogin = () => {
-        // Get the Firebase Auth instance
+        // Get Firebase Auth instance
         const auth = getAuth();
 
         // Check if the email and password fields are not empty
