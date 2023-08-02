@@ -1,7 +1,7 @@
 // Import necessary packages and components
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
@@ -33,7 +33,7 @@ export default function MainApp() {
     <NavigationContainer>
       <PreloadImages />
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: true }} />
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
         <Stack.Screen name="Register" component={Register} options={{ title: 'Register' }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: 'Home' }} />
@@ -53,12 +53,21 @@ function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome!</Text>
-      <Button title="Login" onPress={() => navigation.navigate('Login')} />
-      <Button title="Register" onPress={() => navigation.navigate('Register')} />
+      <Image
+        style={styles.logo}
+        source={require('/Users/kirsty/Documents/Dissertation/scran-recipe-app/assets/cookbook.png')}
+      />
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
+        <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
 }
+
 
 // Define styles for the components
 const styles = StyleSheet.create({
@@ -68,13 +77,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  content: {
-    padding: 20,
-    paddingBottom: 120,
+  logo: {
+    width: 150,
+    height: 150,
+    marginBottom: 100,
   },
   welcomeText: {
     fontSize: 40,
     fontWeight: 'bold',
-    height: 400,
+    height: 150,
+  },
+  button: {
+    backgroundColor: '#fcf3cf',
+    paddingHorizontal: 10,
+    paddingVertical: 15,
+    borderRadius: 5,
+    margin: 5,
+    minWidth: 200,
+    minHeight: 50,
+    textAlign: 'center',
+  },
+  buttonText: {
+    color: '#000000',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
