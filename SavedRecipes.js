@@ -50,8 +50,8 @@ const SavedRecipes = () => {
     // Render the SavedRecipes component
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.content}>
             <Text style={styles.heading}>Saved Recipes</Text>
+            <ScrollView contentContainerStyle={styles.content}>
             {savedRecipes.length > 0 ? (
                 savedRecipes.map((recipe) => (
                     <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
@@ -82,16 +82,19 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     heading: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
         padding: 20,
+        marginBottom: 20,
+        marginHorizontal: 100,
     },
     noRecText: {
         paddingLeft: 20,
     },
     recipeContainer: {
         flexDirection: 'row',
-        marginBottom: 10,
+        marginBottom: 20,
+        marginLeft: 20,
     },
     recipeImage: {
         width: 100,
@@ -100,7 +103,6 @@ const styles = StyleSheet.create({
     },
     recipeDetails: {
         flex: 1,
-        padding: 20,
     },
     recipeName: {
         fontSize: 18,

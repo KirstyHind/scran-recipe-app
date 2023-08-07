@@ -239,7 +239,6 @@ const HomeScreen = () => {
     );
   };
 
-
   // Styling for the HomeScreen component
   const styles = StyleSheet.create({
     container: {

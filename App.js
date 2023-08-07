@@ -39,8 +39,8 @@ export default function MainApp() {
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResult" component={SearchResult} options={{ title: 'Search Results' }} />
         <Stack.Screen name="AddRecipe" component={AddRecipe} options={{ title: 'Add a Recipe' }} />
-        <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ title: 'Recipe Details' }} />
-        <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ title: 'Saved Recipes' }} />
+        <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ headerShown: false }} />
+        <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={Settings} options={{ title: 'Settings' }} />
         <Stack.Screen name="Toolbar" component={Toolbar} options={{ title: 'Toolbar' }} />
       </Stack.Navigator>
