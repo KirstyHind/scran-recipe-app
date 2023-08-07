@@ -34,9 +34,9 @@ export default function MainApp() {
       <PreloadImages />
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-        <Stack.Screen name="Login" component={Login} options={{ title: 'Login' }} />
-        <Stack.Screen name="Register" component={Register} options={{ title: 'Register' }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ title: 'Home' }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResult" component={SearchResult} options={{ title: 'Search Results' }} />
         <Stack.Screen name="AddRecipe" component={AddRecipe} options={{ title: 'Add a Recipe' }} />
         <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ title: 'Recipe Details' }} />
@@ -55,7 +55,7 @@ function Home({ navigation }) {
       <Text style={styles.welcomeText}>Welcome!</Text>
       <Image
         style={styles.logo}
-        source={require('/Users/kirsty/Documents/Dissertation/scran-recipe-app/assets/cookbook.png')}
+        source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/cookbook.png')}
       />
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
         <Text style={styles.buttonText}>Login</Text>

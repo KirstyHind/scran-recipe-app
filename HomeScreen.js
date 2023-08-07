@@ -108,7 +108,7 @@ const HomeScreen = () => {
       signOut(auth)
         .then(() => {
           // Navigate to the login screen after successful logout
-          navigation.navigate('Login');
+          navigation.navigate('Home');
         })
         .catch((error) => {
           // Handle any errors that occurred during logout
@@ -245,11 +245,11 @@ const HomeScreen = () => {
       flex: 1,
       backgroundColor: '#fff',
       justifyContent: 'flex-start',
-      paddingTop: 50,
+      paddingTop: 120,
     },
     userDetailsContainer: {
       position: 'absolute',
-      top: 20,
+      top: 80,
       left: 20,
     },
     userDetails: {
@@ -262,7 +262,7 @@ const HomeScreen = () => {
       paddingHorizontal: 20,
       borderRadius: 5,
       position: 'absolute',
-      top: 20,
+      top: 80,
       right: 20,
     },
     buttonText: {

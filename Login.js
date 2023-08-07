@@ -1,6 +1,6 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
@@ -55,6 +55,7 @@ const Login = () => {
     // Render the login component
     return (
         <View style={styles.container}>
+            <Text style={styles.loginText}>Log In</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -68,6 +69,11 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate('Home')}>
+                <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+            </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomeScreen')}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
@@ -84,12 +90,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
+    loginText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        height: 150,
+      },
     input: {
         width: '80%',
         marginBottom: 10,
         padding: 10,
         borderWidth: 1,
         borderColor: '#ccc',
+        borderRadius: 5,
+    },
+    backButton: {
+        position: 'absolute',
+        top: 50,
+        left: 20,
+        padding: 10,
+    },
+    backImage: {
+        width: 70,
+        height: 70,
+    },
+    imageBorder: {
+        borderWidth: 1,
+        borderColor: 'black',
         borderRadius: 5,
     },
     button: {

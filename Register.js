@@ -1,6 +1,6 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 
@@ -62,6 +62,7 @@ const Register = () => {
     // Render the Register component
     return (
         <View style={styles.container}>
+            <Text style={styles.registerText}>Register</Text>
             {/* Input fields for email and password */}
             <TextInput
                 style={styles.input}
@@ -79,6 +80,11 @@ const Register = () => {
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
                 <Text style={styles.buttonText}>Register</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.navigate('Home')}>
+                <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+            </TouchableOpacity>
         </View>
     );
 };
@@ -92,12 +98,32 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
+    registerText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        height: 150,
+      },
     input: {
         width: '80%',
         marginBottom: 10,
         padding: 10,
         borderWidth: 1,
         borderColor: '#ccc',
+        borderRadius: 5,
+    },
+    backButton: {
+        position: 'absolute',
+        top: 50,
+        left: 20,
+        padding: 10,
+    },
+    backImage: {
+        width: 70,
+        height: 70,
+    },
+    imageBorder: {
+        borderWidth: 1,
+        borderColor: 'black',
         borderRadius: 5,
     },
     button: {
