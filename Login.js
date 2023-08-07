@@ -69,13 +69,14 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
+            
+            <TouchableOpacity style={styles.button} onPress={handleLogin}>
+                <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.navigate('Home')}>
                 <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('HomeScreen')}>
-                <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
         </View>
     );

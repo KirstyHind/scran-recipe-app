@@ -56,6 +56,7 @@ const HomeScreen = () => {
   } else {
     // User is not logged in, navigate to the login screen
     navigation.navigate('Login');
+    return () => {};
   }
     };
 
@@ -108,7 +109,7 @@ const HomeScreen = () => {
       signOut(auth)
         .then(() => {
           // Navigate to the login screen after successful logout
-          navigation.navigate('Home');
+          navigation.navigate('Login');
         })
         .catch((error) => {
           // Handle any errors that occurred during logout
