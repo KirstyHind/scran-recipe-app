@@ -36,7 +36,7 @@ export default function MainApp() {
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
         <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="SearchResult" component={SearchResult} options={{ headerShown: false }} />
-        <Stack.Screen name="AddRecipe" component={AddRecipe} options={{ title: 'Add a Recipe' }} />
+        <Stack.Screen name="AddRecipe" component={AddRecipe} options={{ headerShown: false }} />
         <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ headerShown: false }} />
         <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={Settings} options={{ title: 'Settings' }} />

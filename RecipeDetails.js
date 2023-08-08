@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     paddingBottom: 120,
     fontWeight: 'bold',
-    marginLeft: 160
+    textAlign: 'center',
   }
 });
 

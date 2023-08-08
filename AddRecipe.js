@@ -1,6 +1,6 @@
 // Necessary React and React Native imports
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView, Image } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, push } from 'firebase/database';
 import 'firebase/compat/database';
@@ -21,6 +21,8 @@ const AddRecipe = ({ navigation }) => {
   const [prepTime, setPrepTime] = useState('');
   const [cookTime, setCookTime] = useState('');
   const [mealType, setMealType] = useState('');
+  const [difficulty, setDifficulty] = useState('');
+  const [dietaryRequirements, setDietaryRequirements] = useState('');
 
   // Function to save new recipe to Firebase
   const saveRecipeToFirebase = () => {
@@ -31,6 +33,7 @@ const AddRecipe = ({ navigation }) => {
       // Making user input the desired format
       const ingredientsArray = ingredients.split(',').map(item => item.trim());
       const instructionsArray = cookingInstructions.split(',').map(item => item.trim());
+      const dietaryArray = dietaryRequirements.split(',').map(item => item.trim());
 
       // The new recipe object
       const newRecipe = {
@@ -43,6 +46,8 @@ const AddRecipe = ({ navigation }) => {
         prepTime: parseInt(prepTime),
         cookTime: parseInt(cookTime),
         mealType,
+        difficulty,
+        dietaryRequirements: dietaryArray,
       };
 
       // Save the new recipe in the Firebase database
@@ -63,6 +68,10 @@ const AddRecipe = ({ navigation }) => {
   // Render the AddRecipe component
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.heading}>Add a Recipe</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+      </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.content}>
         {/* Input fields for recipe details */}
         <TextInput
@@ -136,6 +145,23 @@ const AddRecipe = ({ navigation }) => {
           value={mealType}
           onChangeText={(text) => setMealType(text)}
         />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Difficulty"
+          value={mealType}
+          onChangeText={(text) => setDifficulty(text)}
+        />
+        
+        <TextInput
+          style={styles.input}
+          placeholder="Dietary Requirements (separate by ,)"
+          value={dietaryRequirements}
+          onChangeText={(text) => setDietaryRequirements(text)}
+          multiline // Enable multiline input
+          numberOfLines={4} // Set the initial number of lines to show
+          onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+        />
       </ScrollView>
 
       {/* Save button */}
@@ -157,6 +183,22 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 20,
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    padding: 30,
+    textAlign: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    padding: 10,
+  },
+  backImage: {
+    width: 70,
+    height: 70,
   },
   input: {
     height: 40,

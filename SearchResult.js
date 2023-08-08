@@ -108,7 +108,6 @@ const SearchResult = ({ route }) => {
           value={searchQuery}
         />
       </View>
-      <Text style={styles.heading}>Search Results for: {keyword}</Text>
       <ScrollView contentContainerStyle={styles.content}>
         {searchResults.length > 0 ? (
           searchResults.map((recipe) => (
@@ -188,6 +187,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
+    paddingBottom: 50,
   },
   searchInput: {
     flex: 1,
