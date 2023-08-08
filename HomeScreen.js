@@ -109,7 +109,7 @@ const HomeScreen = () => {
       signOut(auth)
         .then(() => {
           // Navigate to the login screen after successful logout
-          navigation.navigate('Login');
+          navigation.navigate('Home');
         })
         .catch((error) => {
           // Handle any errors that occurred during logout
@@ -305,7 +305,7 @@ const HomeScreen = () => {
       flexDirection: 'row',
       padding: 10,
       width: 300,
-      height: 150,
+      height: 100,
     },
     recipeImage: {
       width: 125,
