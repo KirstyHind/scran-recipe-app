@@ -43,20 +43,30 @@ const Register = () => {
 
             // Create a new user account with the provided email and password
             createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+                .then(() => {
                     // Show the success message in a pop-up
                     Alert.alert('Success', 'Account created successfully!');
                     // Navigate to the home page after successful registration
                     navigation.navigate('Home');
                 })
-                .catch((error) => {
-                    // Show the error message in a pop-up
-                    Alert.alert('Error', 'Email already in use. Please use a different email.');
+                .catch(error => {
+                    // Handling specific error messages from Firebase
+                    switch (error.code) {
+                        case 'auth/email-already-in-use':
+                            Alert.alert('Error', 'Email already in use. Please use a different email.');
+                            break;
+                        case 'auth/invalid-email':
+                            Alert.alert('Error', 'Invalid email format. Please enter a valid email.');
+                            break;
+                        case 'auth/weak-password':
+                            Alert.alert('Error', 'Password is too weak. Choose a stronger password.');
+                            break;
+                        default:
+                            Alert.alert('Error', 'An error occurred. Please try again.');
+                            break;
+                    }
                 });
-        } else {
-            // Show an error pop-up if email or password is empty
-            Alert.alert('Error', 'Please enter a valid email and password.');
-        }
+        };
     };
 
     // Render the Register component
@@ -67,14 +77,16 @@ const Register = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Email"
-                onChangeText={(text) => setEmail(text)}
+                onChangeText={setEmail}
                 value={email}
+                keyboardType="email-address"
+                autoCapitalize="none"
             />
             <TextInput
                 style={styles.input}
                 placeholder="Password"
                 secureTextEntry
-                onChangeText={(text) => setPassword(text)}
+                onChangeText={setPassword}
                 value={password}
             />
             <TouchableOpacity style={styles.button} onPress={handleRegistration}>
@@ -83,7 +95,7 @@ const Register = () => {
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.navigate('Home')}>
-                <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+                <Image source={require('./assets/backbutton.png')} style={styles.backImage} />
             </TouchableOpacity>
         </View>
     );
@@ -101,7 +113,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         height: 150,
-      },
+        marginBottom: 20,
+    },
     input: {
         backgroundColor: '#fff',
         width: '80%',
@@ -131,13 +144,14 @@ const styles = StyleSheet.create({
         minWidth: 200,
         minHeight: 50,
         textAlign: 'center',
-      },
-      buttonText: {
+        alignItems: 'center',
+    },
+    buttonText: {
         color: '#000000',
         fontSize: 16,
         textAlign: 'center',
         fontWeight: 'bold',
-      },
+    }
 });
 
 // Export the Register component

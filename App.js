@@ -10,16 +10,9 @@ import HomeScreen from './HomeScreen';
 import SearchResult from './SearchResult';
 import AddRecipe from './AddRecipe';
 import Toolbar from './Toolbar';
-import firebase from './firebaseConfig';
-import { AppRegistry } from 'react-native';
-import { name as appName } from './app.json';
 import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
 import Settings from './Settings';
-
-
-// Register the MainApp component as the main application component
-AppRegistry.registerComponent(appName, () => MainApp);
 
 // Create a stack navigator object for navigation
 const Stack = createStackNavigator();
@@ -30,7 +23,7 @@ export default function MainApp() {
   return (
     // Wrap the app in the NavigationContainer to enable navigation
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
@@ -39,12 +32,13 @@ export default function MainApp() {
         <Stack.Screen name="AddRecipe" component={AddRecipe} options={{ headerShown: false }} />
         <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ headerShown: false }} />
         <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ headerShown: false }} />
-        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false  }} />
+        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
         <Stack.Screen name="Toolbar" component={Toolbar} options={{ title: 'Toolbar' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
 
 // Define the Home component, with navigation to Login and Register screens
 function Home({ navigation }) {
@@ -53,7 +47,7 @@ function Home({ navigation }) {
       <Text style={styles.welcomeText}>Welcome!</Text>
       <Image
         style={styles.logo}
-        source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/cookbook.png')}
+        source={require('./assets/cookbook.png')}
       />
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
         <Text style={styles.buttonText}>Login</Text>
@@ -73,16 +67,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 20,
   },
   logo: {
     width: 150,
     height: 150,
-    marginBottom: 100,
+    marginBottom: 80,
   },
   welcomeText: {
     fontSize: 40,
     fontWeight: 'bold',
-    height: 150,
+    marginBottom: 80,
   },
   button: {
     backgroundColor: '#fcf3cf',
@@ -90,15 +85,14 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 5,
     borderWidth: 1,
-    margin: 5,
+    margin: 10,
     minWidth: 200,
     minHeight: 50,
-    textAlign: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     color: '#000000',
     fontSize: 16,
-    textAlign: 'center',
     fontWeight: 'bold',
-  },
+  }
 });

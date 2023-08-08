@@ -60,13 +60,6 @@ const HomeScreen = () => {
     }
   };
 
-  // Fetch saved recipes on component mount
-  useEffect(() => {
-    const cleanup = fetchSavedRecipes();
-
-    return cleanup;
-  }, []);
-
   const fetchRandomRecipes = () => {
     const database = getDatabase();
     const recipesRef = ref(database, `recipes`);

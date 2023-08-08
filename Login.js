@@ -61,6 +61,8 @@ const Login = () => {
                 placeholder="Email"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
+                keyboardType="email-address"  // Setting the keyboardType to email
+                autoCapitalize="none"       // Avoid automatic capitalisation for emails
             />
             <TextInput
                 style={styles.input}
@@ -69,14 +71,14 @@ const Login = () => {
                 onChangeText={(text) => setPassword(text)}
                 value={password}
             />
-            
+
             <TouchableOpacity style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
             <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.navigate('Home')}>
-                <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+                <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
             </TouchableOpacity>
         </View>
     );
@@ -94,7 +96,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold',
         height: 150,
-      },
+        marginBottom: 20,
+    },
     input: {
         backgroundColor: '#fff',
         width: '80%',
@@ -124,13 +127,14 @@ const styles = StyleSheet.create({
         minWidth: 200,
         minHeight: 50,
         textAlign: 'center',
-      },
-      buttonText: {
+        alignItems: 'center',
+    },
+    buttonText: {
         color: '#000000',
         fontSize: 16,
         textAlign: 'center',
         fontWeight: 'bold',
-      },
+    }
 });
 
 // Export the Login component
