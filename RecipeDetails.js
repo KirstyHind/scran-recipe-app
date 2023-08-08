@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Alert, TouchableOpacity } from 'react-native'; 
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import firebase, { database } from './firebaseConfig';
@@ -21,7 +21,8 @@ const RecipeDetails = ({ route, navigation }) => {
 
     // Error message if user isn't found
     if (!user) {
-      throw new Error('User is not authenticated');
+      Alert.alert('Error', 'User is not authenticated');
+      return;
     }
 
     // Define references to the recipe and user saved recipes
@@ -32,17 +33,18 @@ const RecipeDetails = ({ route, navigation }) => {
     const onValueChange = snapshot => {
       if (snapshot.exists()) {
         setRecipe(snapshot.val());
+      } else {
+        Alert.alert('Error', 'Failed to fetch recipe data.');
       }
     }
-
-    // Set the onValue listener to update the recipe state
-    onValue(recipeRef, onValueChange);
 
     // Function to update the isSaved state based on whether a snapshot exists
     const checkSavedRecipe = snapshot => {
       setIsSaved(snapshot.exists());
     }
 
+    // Set the onValue listener to update the recipe state
+    onValue(recipeRef, onValueChange);
     // Set the onValue listener to check if the user has saved this recipe
     onValue(userSavedRecipeRef, checkSavedRecipe);
 
@@ -58,6 +60,21 @@ const RecipeDetails = ({ route, navigation }) => {
     return <Text>Loading...</Text>;
   }
 
+  const {
+    prepTime,
+    cookTime,
+    recipeName,
+    image,
+    description,
+    servings,
+    cuisine,
+    mealType,
+    difficulty,
+    dietaryRequirements,
+    ingredients,
+    instructions
+  } = recipe;
+
   // Calculate total recipe time and format it for display
   const totalTime = recipe.prepTime + recipe.cookTime;
   const hours = Math.floor(totalTime / 60);
@@ -71,7 +88,8 @@ const RecipeDetails = ({ route, navigation }) => {
 
     // Throw an error if user isn't authenticated
     if (!user) {
-      throw new Error('User is not authenticated');
+      Alert.alert('Error', 'User is not authenticated');
+      return;
     }
 
     // Define reference to the user's saved recipes
@@ -100,30 +118,28 @@ const RecipeDetails = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Recipe Details</Text>
-      <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}>
-                <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
-            </TouchableOpacity>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+      </TouchableOpacity>
       <ScrollView style={styles.content}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+          <Text style={styles.recipeName}>{recipeName}</Text>
           <TouchableOpacity onPress={handleSave}>
             <Image
-              source={isSaved ? require('scran-recipe-app/assets/savedrecipe.png') : require('scran-recipe-app/assets/save.png')}
-              style={{ width: 80, height: 80, marginRight: 0 }}
+              source={isSaved ? require('./assets/savedrecipe.png') : require('./assets/save.png')}
+              style={{ width: 80, height: 80 }}
             />
           </TouchableOpacity>
         </View>
-        <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-        <Text style={styles.recipeDesc}>{recipe.description}</Text>
+        <Image source={{ uri: image }} style={styles.recipeImage} />
+        <Text style={styles.recipeDesc}>{description}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Prep Time: </Text>
-          <Text style={styles.recipeInfo}>{recipe.prepTime} minutes</Text>
+          <Text style={styles.recipeInfo}>{prepTime} minutes</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Cook Time: </Text>
-          <Text style={styles.recipeInfo}>{recipe.cookTime} minutes</Text>
+          <Text style={styles.recipeInfo}>{cookTime} minutes</Text>
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Total Time: </Text>
@@ -132,27 +148,27 @@ const RecipeDetails = ({ route, navigation }) => {
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Servings: </Text>
-          <Text style={styles.recipeInfo}>{recipe.servings}</Text>
+          <Text style={styles.recipeInfo}>{servings}</Text>
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Cuisine: </Text>
-          <Text style={styles.recipeInfo}>{recipe.cuisine}</Text>
+          <Text style={styles.recipeInfo}>{cuisine}</Text>
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Meal Type: </Text>
-          <Text style={styles.recipeInfo}>{recipe.mealType}</Text>
+          <Text style={styles.recipeInfo}>{mealType}</Text>
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Difficulty: </Text>
-          <Text style={styles.recipeInfo}>{recipe.difficulty}</Text>
+          <Text style={styles.recipeInfo}>{difficulty}</Text>
         </View>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={styles.boldText}>Dietary: </Text>
-          <Text style={styles.recipeInfo}>{recipe.dietaryRequirements.join(', ')}</Text>
+          <Text style={styles.recipeInfo}>{dietaryRequirements.join(', ')}</Text>
         </View>
         <Text style={styles.subheading}>Ingredients:</Text>
         {recipe.ingredients.map((ingredient, index) => (
@@ -184,19 +200,19 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: 'bold',
-    padding: 20,
-    marginHorizontal: 100,
+    padding: 30,
+    textAlign: 'center',
   },
   backButton: {
     position: 'absolute',
     top: 50,
     left: 20,
     padding: 10,
-},
-backImage: {
+  },
+  backImage: {
     width: 70,
     height: 70,
-},
+  },
   content: {
     padding: 20,
     paddingBottom: 120,

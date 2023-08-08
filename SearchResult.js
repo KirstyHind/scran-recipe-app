@@ -77,7 +77,7 @@ const SearchResult = ({ route }) => {
 
     let cleanup;
     console.log("Dummy cleanup function...");
-    
+
     // Call fetchAllRecipes if searchQuery is not empty
     if (searchQuery.trim() !== '') {
       cleanup = fetchAllRecipes();
@@ -93,6 +93,12 @@ const SearchResult = ({ route }) => {
   // Render the SearchResult component
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.heading}>Search Results</Text>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}>
+        <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+      </TouchableOpacity>
       {/* Search */}
       <View style={styles.searchContainer}>
         <TextInput
@@ -105,20 +111,21 @@ const SearchResult = ({ route }) => {
       <Text style={styles.heading}>Search Results for: {keyword}</Text>
       <ScrollView contentContainerStyle={styles.content}>
         {searchResults.length > 0 ? (
-        searchResults.map((recipe) => (
-          <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
-            <View style={styles.recipeContainer}>
-              <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-              <View style={styles.recipeDetails}>
-                <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-                <Text style={styles.recipeDescription}>{recipe.description}</Text>
+          searchResults.map((recipe) => (
+            <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
+              <View style={styles.recipeContainer}>
+                <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+                <View style={styles.recipeDetails}>
+                  <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+                  <Text style={styles.recipeDescription}>{recipe.description}</Text>
+                </View>
               </View>
-            </View>
-          </TouchableOpacity>
-        ))
-      ) : (
-        <Text style={styles.noResultsText}> No results found.</Text>
-      )}
+            </TouchableOpacity>
+          ))
+        ) : (
+          <Text style={styles.noResultsText}> No results found.</Text>
+        )}
+        <Text style={styles.endText}>End</Text>
       </ScrollView>
       {/* Toolbar */}
       <Toolbar />
@@ -132,10 +139,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   heading: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 10,
-    marginLeft: 20,
+    padding: 30,
+    textAlign: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    padding: 10,
+  },
+  backImage: {
+    width: 70,
+    height: 70,
   },
   recipeTitle: {
     fontSize: 18,
@@ -169,19 +186,27 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 40,
     justifyContent: 'center',
     padding: 10,
   },
   searchInput: {
     flex: 1,
     height: 48,
+    fontWeight: 'bold',
     borderColor: '#000000',
     borderWidth: 1,
     borderRadius: 5,
+    marginTop: 20,
     paddingHorizontal: 10,
     marginRight: 10,
   },
+  endText: {
+    fontSize: 20,
+    paddingBottom: 80,
+    paddingTop: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
 });
 
 // Export the SearchResult component

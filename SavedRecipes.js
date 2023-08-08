@@ -51,28 +51,32 @@ const SavedRecipes = () => {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.heading}>Saved Recipes</Text>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+            </TouchableOpacity>
             <ScrollView contentContainerStyle={styles.content}>
-            {savedRecipes.length > 0 ? (
-                savedRecipes.map((recipe) => (
-                    <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
-                        <View style={styles.recipeContainer}>
-                            <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-                            <View style={styles.recipeDetails}>
-                                <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-                                <Text style={styles.recipeDescription}>{recipe.description}</Text>
+                {savedRecipes.length > 0 ? (
+                    savedRecipes.map((recipe) => (
+                        <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
+                            <View style={styles.recipeContainer}>
+                                <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
+                                <View style={styles.recipeDetails}>
+                                    <Text style={styles.recipeName}>{recipe.recipeName}</Text>
+                                    <Text style={styles.recipeDescription}>{recipe.description}</Text>
+                                </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-                ))
-            ) : (
-                <Text style={styles.noRecText}>No saved recipes.</Text>
-            )}
+                        </TouchableOpacity>
+                    ))
+                ) : (
+                    <Text style={styles.noRecText}>No saved recipes.</Text>
+                )}
+                <Text style={styles.endText}>End</Text>
             </ScrollView>
 
             {/* Toolbar */}
             <Toolbar />
-            </SafeAreaView>
-        
+        </SafeAreaView>
+
     );
 };
 
@@ -84,25 +88,34 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 24,
         fontWeight: 'bold',
-        padding: 20,
-        marginBottom: 20,
-        marginHorizontal: 100,
+        padding: 30,
+        textAlign: 'center',
+    },
+    backButton: {
+        position: 'absolute',
+        top: 50,
+        left: 20,
+        padding: 10,
+    },
+    backImage: {
+        width: 70,
+        height: 70,
     },
     noRecText: {
         paddingLeft: 20,
     },
     recipeContainer: {
         flexDirection: 'row',
-        marginBottom: 20,
-        marginLeft: 20,
+        padding: 10,
+        paddingTop: 20,
+    },
+    recipeDetails: {
+        flex: 1,
     },
     recipeImage: {
         width: 100,
         height: 100,
         marginRight: 10,
-    },
-    recipeDetails: {
-        flex: 1,
     },
     recipeName: {
         fontSize: 18,
@@ -111,6 +124,13 @@ const styles = StyleSheet.create({
     recipeDescription: {
         fontSize: 16,
     },
+    endText: {
+        fontSize: 20,
+        paddingBottom: 80,
+        paddingTop: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+      }
 });
 
 // Export the SavedRecipes component

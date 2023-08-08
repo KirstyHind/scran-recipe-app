@@ -305,7 +305,7 @@ const HomeScreen = () => {
       flexDirection: 'row',
       padding: 10,
       width: 300,
-      height: 100,
+      height: 300,
     },
     recipeImage: {
       width: 125,
