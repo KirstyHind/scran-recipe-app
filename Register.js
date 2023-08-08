@@ -93,7 +93,6 @@ const Register = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
         height: 150,
       },
     input: {
+        backgroundColor: '#fff',
         width: '80%',
         marginBottom: 10,
         padding: 10,
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 15,
         borderRadius: 5,
+        borderWidth: 1,
         margin: 5,
         minWidth: 200,
         minHeight: 50,

@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     paddingBottom: 120,
+    backgroundColor: '#fff',
   },
   recipeName: {
     fontSize: 24,
@@ -231,10 +232,12 @@ const styles = StyleSheet.create({
   recipeDesc: {
     fontSize: 22,
     marginBottom: 20,
+    padding: 10,
   },
   recipeInfo: {
     fontSize: 20,
     marginBottom: 30,
+    paddingRight: 20,
   },
   subheading: {
     fontSize: 20,

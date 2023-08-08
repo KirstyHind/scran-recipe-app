@@ -105,6 +105,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
     },
     recipeContainer: {
+        backgroundColor: '#fff',
         flexDirection: 'row',
         padding: 10,
         paddingTop: 20,

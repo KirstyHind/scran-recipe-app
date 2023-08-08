@@ -166,7 +166,7 @@ const AddRecipe = ({ navigation }) => {
 
       {/* Save button */}
       <TouchableOpacity style={styles.saveButton} onPress={saveRecipeToFirebase}>
-        <Text style={styles.buttonText}>Save Recipe</Text>
+        <Text style={styles.buttonText}>Add Recipe</Text>
       </TouchableOpacity>
 
       {/* Toolbar */}
@@ -179,7 +179,6 @@ const AddRecipe = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   content: {
     padding: 20,
@@ -201,6 +200,7 @@ const styles = StyleSheet.create({
     height: 70,
   },
   input: {
+    backgroundColor: '#fff',
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   saveButton: {
-    backgroundColor: '#000',
+    backgroundColor: '#fcf3cf',
     paddingVertical: 20,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -220,8 +220,9 @@ const styles = StyleSheet.create({
     right: 20,
   },
   buttonText: {
-    color: '#fff',
+    color: '#000000',
     fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

@@ -245,7 +245,6 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'flex-start',
     paddingTop: 120,
   },
@@ -259,17 +258,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   logoutButton: {
-    backgroundColor: '#000000',
+    backgroundColor: '#fcf3cf',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     position: 'absolute',
     top: 80,
     right: 20,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
+    borderWidth: 1,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -280,6 +276,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   searchInput: {
+    backgroundColor: '#fff',
     flex: 1,
     height: 48,
     borderColor: '#000000',
@@ -288,11 +285,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginRight: 10,
   },
+  buttonText: {
+    color: '#000000',
+    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
   searchButton: {
-    backgroundColor: '#000000',
-    paddingVertical: 10,
+    backgroundColor: '#fcf3cf',
+    paddingVertical: 13,
     paddingHorizontal: 20,
     borderRadius: 5,
+    height: 48,
+    borderWidth: 1,
+  },
+  noRecText: {
+    paddingLeft: 20,
+  },
+  recipeContainer: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    padding: 10,
   },
   heading: {
     fontSize: 20,
@@ -300,13 +313,6 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'left',
     marginBottom: 10,
-  },
-  noRecText: {
-    paddingLeft: 20,
-  },
-  recipeContainer: {
-    flexDirection: 'row',
-    padding: 10,
   },
   recipeImage: {
     width: 125,
@@ -330,7 +336,8 @@ const styles = StyleSheet.create({
   },
   enjoyText: {
     fontSize: 24,
-    paddingBottom: 150,
+    paddingBottom: 140,
+    paddingTop: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   }

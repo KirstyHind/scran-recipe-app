@@ -39,7 +39,7 @@ export default function MainApp() {
         <Stack.Screen name="AddRecipe" component={AddRecipe} options={{ headerShown: false }} />
         <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ headerShown: false }} />
         <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ headerShown: false }} />
-        <Stack.Screen name="Settings" component={Settings} options={{ title: 'Settings' }} />
+        <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false  }} />
         <Stack.Screen name="Toolbar" component={Toolbar} options={{ title: 'Toolbar' }} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -71,7 +71,6 @@ function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -90,6 +89,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 5,
+    borderWidth: 1,
     margin: 5,
     minWidth: 200,
     minHeight: 50,

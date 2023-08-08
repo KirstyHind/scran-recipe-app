@@ -164,7 +164,10 @@ const styles = StyleSheet.create({
   },
   recipeContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   recipeImage: {
     width: 100,
@@ -190,6 +193,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   searchInput: {
+    backgroundColor: '#fff',
     flex: 1,
     height: 48,
     fontWeight: 'bold',
