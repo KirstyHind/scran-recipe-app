@@ -19,9 +19,10 @@ const SearchResult = ({ route }) => {
   const [searchQuery, setSearchQuery] = useState(keyword || '');
 
   // Function to handle search input change
-  const handleSearchInputChange = (text) => {
+  const handleSearchInputChange = (userInput) => {
+    console.log("Input changed:", userInput);
     // Update searchQuery state with entered text
-    setSearchQuery(text);
+    setSearchQuery(userInput);
   };
 
   // Function to fetch all recipes from Firebase database and filter based on searchQuery
@@ -30,8 +31,12 @@ const SearchResult = ({ route }) => {
     // Create reference to 'recipes' in database
     const recipesRef = ref(database, 'recipes');
 
+    // Debugging log
+    console.log("Fetching all recipes...");
+
     // Function to handle value changes in recipes reference
     const onValueChange = snapshot => {
+      console.log("Firebase data received:", snapshot.val());
       if (snapshot.exists()) {
         // Snapshot of the data from 'recipes' reference
         const data = snapshot.val();
@@ -44,9 +49,9 @@ const SearchResult = ({ route }) => {
           (recipe.description && recipe.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
           (recipe.ingredients && recipe.ingredients.some(ingredient => ingredient.toLowerCase().includes(searchQuery.toLowerCase()))) ||
           (recipe.mealType && recipe.mealType.toLowerCase().includes(searchQuery.toLowerCase())) ||
-          (recipe.cuisine && recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase()))
-          (recipe.difficulty && recipe.difficulty.toLowerCase().includes(searchQuery.toLowerCase()))
-          (recipe.dietaryRequirements && recipe.dietaryRequirements.toLowerCase().includes(searchQuery.toLowerCase()))
+          (recipe.cuisine && recipe.cuisine.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (recipe.difficulty && recipe.difficulty.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (recipe.dietaryRequirements && recipe.dietaryRequirements.toLowerCase().includes(searchQuery.toLowerCase())) 
         );
 
         // Update searchResults with filtered recipes
@@ -60,12 +65,19 @@ const SearchResult = ({ route }) => {
     onValue(recipesRef, onValueChange);
 
     // Return a cleanup function to remove the listener
-    return () => off(recipesRef, 'value', onValueChange);
+    return () => {
+      console.log("Cleaning up Firebase listener...");
+      off(recipesRef, 'value', onValueChange);
+    };
   };
 
   // Call fetchAllRecipes whenever searchQuery is updated
   useEffect(() => {
+    console.log("useEffect triggered..."); // Debugging log
+
     let cleanup;
+    console.log("Dummy cleanup function...");
+    
     // Call fetchAllRecipes if searchQuery is not empty
     if (searchQuery.trim() !== '') {
       cleanup = fetchAllRecipes();
@@ -105,7 +117,7 @@ const SearchResult = ({ route }) => {
           </TouchableOpacity>
         ))
       ) : (
-        <Text>No results found.</Text>
+        <Text style={styles.noResultsText}> No results found.</Text>
       )}
       </ScrollView>
       {/* Toolbar */}
@@ -129,9 +141,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  recipeDescription: {
+  noResultsText: {
     fontSize: 16,
     marginBottom: 10,
+    marginLeft: 20,
   },
   recipeContainer: {
     flexDirection: 'row',

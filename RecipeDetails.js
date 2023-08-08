@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Alert, TouchableOpacity } from 'react-native'; 
+import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, onValue, off, remove } from 'firebase/database';
 import Toolbar from './Toolbar';
 
 // RecipeDetails Component
-const RecipeDetails = ({ route }) => {
+const RecipeDetails = ({ route, navigation }) => {
   const { recipeId } = route.params;
   // State to hold recipe
   const [recipe, setRecipe] = useState(null);
@@ -99,13 +100,18 @@ const RecipeDetails = ({ route }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Recipe Details</Text>
+      <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => navigation.goBack()}>
+                <Image source={require('/Users/kirsty/Library/CloudStorage/OneDrive-UniversityofStrathclyde/Dissertation/scran-recipe-app/assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
+            </TouchableOpacity>
       <ScrollView style={styles.content}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={styles.recipeName}>{recipe.recipeName}</Text>
           <TouchableOpacity onPress={handleSave}>
             <Image
               source={isSaved ? require('scran-recipe-app/assets/savedrecipe.png') : require('scran-recipe-app/assets/save.png')}
-              style={{ width: 80, height: 80, marginLeft: 170, }}
+              style={{ width: 80, height: 80, marginRight: 0 }}
             />
           </TouchableOpacity>
         </View>
@@ -181,6 +187,16 @@ const styles = StyleSheet.create({
     padding: 20,
     marginHorizontal: 100,
   },
+  backButton: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    padding: 10,
+},
+backImage: {
+    width: 70,
+    height: 70,
+},
   content: {
     padding: 20,
     paddingBottom: 120,

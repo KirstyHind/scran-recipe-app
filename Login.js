@@ -114,11 +114,6 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
     },
-    imageBorder: {
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
-    },
     button: {
         backgroundColor: '#fcf3cf',
         paddingHorizontal: 10,
