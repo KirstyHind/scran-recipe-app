@@ -1,6 +1,6 @@
 // Necessary React and React Native imports
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView, Image } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, push } from 'firebase/database';
 import 'firebase/compat/database';
@@ -14,6 +14,7 @@ const AddRecipe = ({ navigation }) => {
   // State to store the recipe details
   const [recipeName, setRecipeName] = useState('');
   const [description, setDescription] = useState('');
+  const [image, setImageLink] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [servings, setServings] = useState('');
   const [cookingInstructions, setCookingInstructions] = useState('');
@@ -39,6 +40,7 @@ const AddRecipe = ({ navigation }) => {
       const newRecipe = {
         recipeName,
         description,
+        image,
         ingredients: ingredientsArray,
         servings: parseInt(servings),
         cookingInstructions: instructionsArray,
@@ -67,6 +69,7 @@ const AddRecipe = ({ navigation }) => {
 
   // Render the AddRecipe component
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView style={styles.container}>
       <Text style={styles.heading}>Add a Recipe</Text>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
@@ -81,7 +84,7 @@ const AddRecipe = ({ navigation }) => {
           onChangeText={(text) => setRecipeName(text)}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputWide}
           placeholder="Description"
           value={description}
           onChangeText={(text) => setDescription(text)}
@@ -90,6 +93,12 @@ const AddRecipe = ({ navigation }) => {
         />
         <TextInput
           style={styles.input}
+          placeholder="Image Link (jpeg)"
+          value={image}
+          onChangeText={(text) => setImageLink(text)}
+        />
+        <TextInput
+          style={styles.inputWider}
           placeholder="Ingredients (separate by ,)"
           value={ingredients}
           onChangeText={(text) => setIngredients(text)}
@@ -107,7 +116,7 @@ const AddRecipe = ({ navigation }) => {
         />
 
         <TextInput
-          style={styles.input}
+          style={styles.inputWider}
           placeholder="Cooking Instructions (separate by ,)"
           value={cookingInstructions}
           onChangeText={(text) => setCookingInstructions(text)}
@@ -154,7 +163,7 @@ const AddRecipe = ({ navigation }) => {
         />
         
         <TextInput
-          style={styles.input}
+          style={styles.inputWider}
           placeholder="Dietary Requirements (separate by ,)"
           value={dietaryRequirements}
           onChangeText={(text) => setDietaryRequirements(text)}
@@ -162,16 +171,18 @@ const AddRecipe = ({ navigation }) => {
           numberOfLines={4} // Set the initial number of lines to show
           onSubmitEditing={() => { }} // This function will handle the "Enter" key press
         />
+        <Text style={styles.endText}></Text>
       </ScrollView>
 
       {/* Save button */}
       <TouchableOpacity style={styles.saveButton} onPress={saveRecipeToFirebase}>
         <Text style={styles.buttonText}>Add Recipe</Text>
       </TouchableOpacity>
-
+      
       {/* Toolbar */}
       <Toolbar />
     </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -208,6 +219,24 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
   },
+  inputWide: {
+    backgroundColor: '#fff',
+    height: 80,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  inputWider: {
+    backgroundColor: '#fff',
+    height: 150,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
   saveButton: {
     backgroundColor: '#fcf3cf',
     paddingVertical: 20,
@@ -224,6 +253,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  endText: {
+    paddingBottom: 80,
+    paddingTop: 200,
+  }
 });
 
 // Export the AddRecipe component
