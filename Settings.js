@@ -84,13 +84,6 @@ const Settings = () => {
                     { id: '2', name: 'Change Password', expanded: false, password: '', confirmPassword: '' },
                 ],
             },
-            {
-                title: 'User Settings',
-                data: [
-                    { id: '3', name: 'Notifications', expanded: false },
-                    { id: '4', name: 'Profile', expanded: false },
-                ],
-            },
         ]);
     };
 

@@ -158,7 +158,7 @@ const AddRecipe = ({ navigation }) => {
         <TextInput
           style={styles.input}
           placeholder="Difficulty"
-          value={mealType}
+          value={difficulty}
           onChangeText={(text) => setDifficulty(text)}
         />
         

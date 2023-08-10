@@ -13,6 +13,7 @@ import Toolbar from './Toolbar';
 import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
 import Settings from './Settings';
+import GuestHomeScreen from './GuestHomeScreen.js';
 
 // Create a stack navigator object for navigation
 const Stack = createStackNavigator();
@@ -33,6 +34,7 @@ export default function MainApp() {
         <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ headerShown: false }} />
         <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+        <Stack.Screen name="GuestHomeScreen" component={GuestHomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Toolbar" component={Toolbar} options={{ title: 'Toolbar' }} />
       </Stack.Navigator>
     </NavigationContainer>
@@ -54,6 +56,9 @@ function Home({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
         <Text style={styles.buttonText}>Register</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GuestHomeScreen')}>
+        <Text style={styles.buttonText}>Continue As Guest</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
