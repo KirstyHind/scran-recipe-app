@@ -173,7 +173,7 @@ const RecipeDetails = ({ route, navigation }) => {
         <Text style={styles.subheading}>Ingredients:</Text>
         {recipe.ingredients.map((ingredient, index) => (
           <View key={index}>
-            <Text style={styles.recipeInfo}>{ingredient}</Text>
+            <Text style={styles.ingredients}>{ingredient}</Text>
           </View>
 
         ))}
@@ -181,7 +181,7 @@ const RecipeDetails = ({ route, navigation }) => {
         {recipe.instructions.map((instruction, index) => (
           <View key={index} style={{ flexDirection: 'row' }}>
             <Text style={styles.boldText}>{`${index + 1}.`}</Text>
-            <Text style={styles.recipeInfo}>{instruction}</Text>
+            <Text style={styles.instructions}>{instruction}</Text>
           </View>
         ))}
         <Text style={styles.enjoyText}>Enjoy!</Text>
@@ -235,6 +235,16 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   recipeInfo: {
+    fontSize: 20,
+    marginBottom: 30,
+    paddingRight: 100,
+  },
+  ingredients: {
+    fontSize: 20,
+    marginBottom: 30,
+    paddingRight: 20,
+  },
+  instructions: {
     fontSize: 20,
     marginBottom: 30,
     paddingRight: 20,

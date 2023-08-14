@@ -30,9 +30,7 @@ const HomeScreen = () => {
     // Get current user and database reference
     const auth = getAuth();
     const database = getDatabase();
-
-    if (auth.currentUser) {
-      const savedRecipesRef = ref(database, `users/${auth.currentUser.uid}/savedRecipes`);
+    const savedRecipesRef = ref(database, `users/${auth.currentUser.uid}/savedRecipes`);
 
       // Define the value change handler
       const onValueChange = snapshot => {
@@ -46,18 +44,13 @@ const HomeScreen = () => {
           // Set empty recipes list if there's no data
           setSavedRecipes([]);
         }
-      };
+      }
 
       // Attach the value change listener
       onValue(savedRecipesRef, onValueChange);
 
       // Cleanup function for removing the listener
       return () => off(savedRecipesRef, 'value', onValueChange);
-    } else {
-      // User is not logged in, navigate to the login screen
-      navigation.navigate('Login');
-      return () => { };
-    }
   };
 
   const fetchRandomRecipes = () => {

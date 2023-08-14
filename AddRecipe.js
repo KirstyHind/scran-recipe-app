@@ -62,7 +62,6 @@ const AddRecipe = ({ navigation }) => {
       navigation.navigate('HomeScreen');
     } catch (error) {
       // Log and notify user of error
-      console.error('Failed to save recipe', error.message);
       Alert.alert('Failed to save recipe', 'An error occurred while saving the recipe.');
     }
   };
