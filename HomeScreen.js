@@ -296,6 +296,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
+    paddingTop: 30,
     padding: 10,
     textAlign: 'left',
     marginBottom: 10,

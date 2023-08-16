@@ -44,7 +44,7 @@ export default function MainApp() {
 function Home({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome!</Text>
+      <Text style={styles.welcomeText}>Welcome to SCRAN!</Text>
       <Image
         style={styles.logo}
         source={require('./assets/cookbook.png')}
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: 'bold',
     marginBottom: 80,
+    alignContent: 'center',
   },
   button: {
     backgroundColor: '#fcf3cf',
