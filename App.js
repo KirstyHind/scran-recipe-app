@@ -1,7 +1,7 @@
 // Import necessary packages and components
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
@@ -9,10 +9,10 @@ import Register from './Register';
 import HomeScreen from './HomeScreen';
 import SearchResult from './SearchResult';
 import AddRecipe from './AddRecipe';
-import Toolbar from './Toolbar';
 import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
 import Settings from './Settings';
+import CustomButton from './CustomButton';
 
 // Create a stack navigator object for navigation
 const Stack = createStackNavigator();
@@ -33,7 +33,6 @@ export default function MainApp() {
         <Stack.Screen name="RecipeDetails" component={RecipeDetails} options={{ headerShown: false }} />
         <Stack.Screen name="SavedRecipes" component={SavedRecipes} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
-        <Stack.Screen name="Toolbar" component={Toolbar} options={{ title: 'Toolbar' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -49,12 +48,16 @@ function Home({ navigation }) {
         style={styles.logo}
         source={require('./assets/cookbook.png')}
       />
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText}>Login</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
-        <Text style={styles.buttonText}>Register</Text>
-      </TouchableOpacity>
+      <CustomButton
+        title="Login"
+        onPress={() => navigation.navigate('Login')}
+        style={{ minWidth: '75%', minHeight: '7%', }}
+      />
+      <CustomButton
+        title="Register"  // Fixed the title here.
+        onPress={() => navigation.navigate('Register')}
+        style={{ minWidth: '75%', minHeight: '7%', }}
+      />
       <StatusBar style="auto" />
     </View>
   );
@@ -70,30 +73,14 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 80,
+    width: '50%',
+    height: '22%',
+    marginBottom: '20%',
   },
   welcomeText: {
     fontSize: 40,
     fontWeight: 'bold',
-    marginBottom: 80,
-    alignContent: 'center',
+    marginBottom: '20%',
+    textAlign: 'center',
   },
-  button: {
-    backgroundColor: '#fcf3cf',
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    borderRadius: 5,
-    borderWidth: 1,
-    margin: 10,
-    minWidth: 200,
-    minHeight: 50,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#000000',
-    fontSize: 16,
-    fontWeight: 'bold',
-  }
 });

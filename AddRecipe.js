@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, push } from 'firebase/database';
-import 'firebase/compat/database';
+import 'firebase/database';
 
 // Local component imports
 import Toolbar from './Toolbar';
