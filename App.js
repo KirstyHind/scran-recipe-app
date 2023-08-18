@@ -1,7 +1,7 @@
 // Import necessary packages and components
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
@@ -13,6 +13,7 @@ import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
 import Settings from './Settings';
 import CustomButton from './CustomButton';
+import HeaderText from './HeaderText';
 
 // Create a stack navigator object for navigation
 const Stack = createStackNavigator();
@@ -43,7 +44,7 @@ export default function MainApp() {
 function Home({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome to SCRAN!</Text>
+      <HeaderText>Welcome to SCRAN!</HeaderText>
       <Image
         style={styles.logo}
         source={require('./assets/cookbook.png')}
@@ -75,12 +76,7 @@ const styles = StyleSheet.create({
   logo: {
     width: '50%',
     height: '22%',
+    marginTop: '10%',
     marginBottom: '20%',
-  },
-  welcomeText: {
-    fontSize: 40,
-    fontWeight: 'bold',
-    marginBottom: '20%',
-    textAlign: 'center',
   },
 });

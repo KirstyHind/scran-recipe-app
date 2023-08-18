@@ -1,8 +1,14 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Image } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import AppName from './AppName';
+import HeaderText from './HeaderText';
+import CustomButton from './CustomButton';
+import BackButton from './BackButton';
+import InputBox from './InputBox';
+
 
 // Define login component
 const Login = () => {
@@ -54,35 +60,35 @@ const Login = () => {
 
     // Render the login component
     return (
-        <View style={styles.container}>
-            <Text style={styles.loginText}>Log In</Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={(text) => setEmail(text)}
-                value={email}
-                keyboardType="email-address"  // Setting the keyboardType to email
-                autoCapitalize="none"       // Avoid automatic capitalisation for emails
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                onChangeText={(text) => setPassword(text)}
-                value={password}
-            />
-
-            <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.navigate('Home')}>
-                <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
-            </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <AppName />
+                <HeaderText>Log In</HeaderText>
+                <View style={styles.login}>
+                    <InputBox
+                        placeholder="Email"
+                        onChangeText={(text) => setEmail(text)}
+                        value={email}
+                        keyboardType="email-address"
+                    />
+                    <InputBox
+                        placeholder="Password"
+                        isPassword={true}
+                        onChangeText={(text) => setPassword(text)}
+                        value={password}
+                    />
+                </View>
+                <CustomButton
+                    title="Login"
+                    onPress={handleLogin}
+                    style={{ minWidth: '75%', minHeight: '7%',}}
+                />
+                <BackButton onPress={() => navigation.navigate('Home')} />
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
+
 
 // Define styles for the components
 const styles = StyleSheet.create({
@@ -92,48 +98,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
-    loginText: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        height: 150,
-        marginBottom: 20,
-    },
-    input: {
-        backgroundColor: '#fff',
-        width: '80%',
-        marginBottom: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-    },
-    backButton: {
-        position: 'absolute',
-        top: 50,
-        left: 20,
-        padding: 10,
-    },
-    backImage: {
-        width: 70,
-        height: 70,
-    },
-    button: {
-        backgroundColor: '#fcf3cf',
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-        borderRadius: 5,
-        borderWidth: 1,
-        margin: 5,
-        minWidth: 200,
-        minHeight: 50,
-        textAlign: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#000000',
-        fontSize: 16,
-        textAlign: 'center',
-        fontWeight: 'bold',
+    login: {
+        marginTop: 200,
     }
 });
 
