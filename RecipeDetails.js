@@ -5,6 +5,9 @@ import { getAuth } from 'firebase/auth';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, onValue, off, remove } from 'firebase/database';
 import Toolbar from './Toolbar';
+import RecipeInfo from './RecipeInfo';
+import BackButton from './BackButton';
+import HeaderText from './HeaderText';
 
 // RecipeDetails Component
 const RecipeDetails = ({ route, navigation }) => {
@@ -117,10 +120,8 @@ const RecipeDetails = ({ route, navigation }) => {
   // Render the RecipeDetails component
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>Recipe Details</Text>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
-      </TouchableOpacity>
+      <HeaderText >Recipe Details</HeaderText>
+      <BackButton />
       <ScrollView style={styles.content}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <Text style={styles.recipeName}>{recipeName}</Text>

@@ -7,7 +7,7 @@ const BackButton = () => {
     return (
         <TouchableOpacity
             style={styles.backButton}
-            onPress={() => navigation.navigate('Home')}>
+            onPress={() => navigation.goBack()}>
             <Image 
                 source={require('./assets/backbutton.png')} 
                 style={styles.backImage} 

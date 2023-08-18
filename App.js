@@ -1,7 +1,7 @@
 // Import necessary packages and components
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from './Login';
@@ -13,7 +13,7 @@ import RecipeDetails from './RecipeDetails';
 import SavedRecipes from './SavedRecipes';
 import Settings from './Settings';
 import CustomButton from './CustomButton';
-import HeaderText from './HeaderText';
+
 
 // Create a stack navigator object for navigation
 const Stack = createStackNavigator();
@@ -44,7 +44,7 @@ export default function MainApp() {
 function Home({ navigation }) {
   return (
     <View style={styles.container}>
-      <HeaderText>Welcome to SCRAN!</HeaderText>
+      <Text style={styles.welcomeText}>Welcome to SCRAN!</Text>
       <Image
         style={styles.logo}
         source={require('./assets/cookbook.png')}
@@ -52,12 +52,12 @@ function Home({ navigation }) {
       <CustomButton
         title="Login"
         onPress={() => navigation.navigate('Login')}
-        style={{ minWidth: '75%', minHeight: '7%', }}
+        style={{ width: '75%', height: '7%', }}
       />
       <CustomButton
         title="Register"  // Fixed the title here.
         onPress={() => navigation.navigate('Register')}
-        style={{ minWidth: '75%', minHeight: '7%', }}
+        style={{ width: '75%', height: '7%', }}
       />
       <StatusBar style="auto" />
     </View>
@@ -72,6 +72,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+  },
+  welcomeText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    marginBottom: 80,
+    textAlign: 'center',
   },
   logo: {
     width: '50%',

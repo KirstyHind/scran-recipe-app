@@ -1,6 +1,6 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import AppName from './AppName';
@@ -79,7 +79,7 @@ const Register = () => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
                 <AppName />
-                <HeaderText>Register</HeaderText>
+                <Text style={styles.registerText}>Register</Text>
                 <View style={styles.register}>
                     <InputBox
                         placeholder="Email"
@@ -98,9 +98,9 @@ const Register = () => {
                 <CustomButton
                     title="Register"
                     onPress={handleRegistration}
-                    style={{ minWidth: '75%', minHeight: '7%',}}
+                    style={{ width: '75%', height: '7%',}}
                 />
-                <BackButton onPress={() => navigation.navigate('Home')} />
+                <BackButton/>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -114,6 +114,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
+    registerText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginBottom: 80,
+        textAlign: 'center',
+      },
     register: {
         marginTop: 50,
     }

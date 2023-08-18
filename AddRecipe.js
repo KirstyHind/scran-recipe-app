@@ -8,6 +8,10 @@ import 'firebase/database';
 // Local component imports
 import Toolbar from './Toolbar';
 import { ScrollView } from 'react-native-gesture-handler';
+import BackButton from './BackButton';
+import InputBox from './InputBox';
+import HeaderText from './HeaderText';
+import CustomButton from './CustomButton';
 
 // AddRecipe component
 const AddRecipe = ({ navigation }) => {
@@ -69,118 +73,110 @@ const AddRecipe = ({ navigation }) => {
   // Render the AddRecipe component
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>Add a Recipe</Text>
-      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
-      </TouchableOpacity>
-      <ScrollView contentContainerStyle={styles.content}>
-        {/* Input fields for recipe details */}
-        <TextInput
-          style={styles.input}
-          placeholder="Recipe Name"
-          value={recipeName}
-          onChangeText={(text) => setRecipeName(text)}
-        />
-        <TextInput
-          style={styles.inputWide}
-          placeholder="Description"
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-          multiline // Enable multiline input
-          numberOfLines={4} // Set the initial number of lines to show
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Image Link (jpeg)"
-          value={image}
-          onChangeText={(text) => setImageLink(text)}
-        />
-        <TextInput
-          style={styles.inputWider}
-          placeholder="Ingredients (separate by ,)"
-          value={ingredients}
-          onChangeText={(text) => setIngredients(text)}
-          multiline // Enable multiline input
-          numberOfLines={4} // Set the initial number of lines to show
-          onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+      <SafeAreaView style={styles.container}>
+        <HeaderText>Add a Recipe</HeaderText>
+        <BackButton />
+        <ScrollView contentContainerStyle={styles.content}>
+          {/* Input fields for recipe details */}
+          <InputBox
+            placeholder="Recipe Name"
+            value={recipeName}
+            onChangeText={(text) => setRecipeName(text)}
+          />
+          <TextInput
+            style={styles.inputWide}
+            placeholder="Description"
+            value={description}
+            onChangeText={(text) => setDescription(text)}
+            multiline // Enable multiline input
+            numberOfLines={4} // Set the initial number of lines to show
+          />
+          <InputBox
+            placeholder="Image Link (jpeg)"
+            value={image}
+            onChangeText={(text) => setImageLink(text)}
+          />
+          <TextInput
+            style={styles.inputWider}
+            placeholder="Ingredients (separate by ,)"
+            value={ingredients}
+            onChangeText={(text) => setIngredients(text)}
+            multiline // Enable multiline input
+            numberOfLines={4} // Set the initial number of lines to show
+            onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+          />
+
+          <InputBox
+            placeholder="Servings"
+            value={servings}
+            onChangeText={(text) => setServings(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+            keyboardType="numeric"
+          />
+
+          <TextInput
+            style={styles.inputWider}
+            placeholder="Cooking Instructions (separate by ,)"
+            value={cookingInstructions}
+            onChangeText={(text) => setCookingInstructions(text)}
+            multiline // Enable multiline input
+            numberOfLines={4} // Set the initial number of lines to show
+            onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+          />
+
+          <InputBox
+            placeholder="Cuisine"
+            value={cuisine}
+            onChangeText={(text) => setCuisine(text)}
+          />
+
+          <InputBox
+            placeholder="Preparation Time (Minutes)"
+            value={prepTime}
+            onChangeText={(text) => setPrepTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+            keyboardType="numeric"
+          />
+
+          <InputBox
+            placeholder="Cooking Time (Minutes)"
+            value={cookTime}
+            onChangeText={(text) => setCookTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
+            keyboardType="numeric"
+          />
+
+          <InputBox
+            placeholder="Meal Type"
+            value={mealType}
+            onChangeText={(text) => setMealType(text)}
+          />
+
+          <InputBox
+            placeholder="Difficulty"
+            value={difficulty}
+            onChangeText={(text) => setDifficulty(text)}
+          />
+
+          <TextInput
+            style={styles.inputWider}
+            placeholder="Dietary Requirements (separate by ,)"
+            value={dietaryRequirements}
+            onChangeText={(text) => setDietaryRequirements(text)}
+            multiline // Enable multiline input
+            numberOfLines={4} // Set the initial number of lines to show
+            onSubmitEditing={() => { }} // This function will handle the "Enter" key press
+          />
+          <Text style={styles.endText}></Text>
+        </ScrollView>
+
+        {/* Add Recipe button */}
+        <CustomButton
+          title="Add Recipe"
+          onPress={saveRecipeToFirebase}
+          style={{padding: 20, width: '75%', minHeight: '7%', marginBottom: 100,}}
         />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Servings"
-          value={servings}
-          onChangeText={(text) => setServings(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
-          keyboardType="numeric"
-        />
-
-        <TextInput
-          style={styles.inputWider}
-          placeholder="Cooking Instructions (separate by ,)"
-          value={cookingInstructions}
-          onChangeText={(text) => setCookingInstructions(text)}
-          multiline // Enable multiline input
-          numberOfLines={4} // Set the initial number of lines to show
-          onSubmitEditing={() => { }} // This function will handle the "Enter" key press
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Cuisine"
-          value={cuisine}
-          onChangeText={(text) => setCuisine(text)}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Preparation Time (Minutes)"
-          value={prepTime}
-          onChangeText={(text) => setPrepTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
-          keyboardType="numeric"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Cooking Time (Minutes)"
-          value={cookTime}
-          onChangeText={(text) => setCookTime(text.replace(/[^0-9]/g, ''))} // Only allow numeric input
-          keyboardType="numeric"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Meal Type"
-          value={mealType}
-          onChangeText={(text) => setMealType(text)}
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Difficulty"
-          value={difficulty}
-          onChangeText={(text) => setDifficulty(text)}
-        />
-        
-        <TextInput
-          style={styles.inputWider}
-          placeholder="Dietary Requirements (separate by ,)"
-          value={dietaryRequirements}
-          onChangeText={(text) => setDietaryRequirements(text)}
-          multiline // Enable multiline input
-          numberOfLines={4} // Set the initial number of lines to show
-          onSubmitEditing={() => { }} // This function will handle the "Enter" key press
-        />
-        <Text style={styles.endText}></Text>
-      </ScrollView>
-
-      {/* Save button */}
-      <TouchableOpacity style={styles.saveButton} onPress={saveRecipeToFirebase}>
-        <Text style={styles.buttonText}>Add Recipe</Text>
-      </TouchableOpacity>
-      
-      {/* Toolbar */}
-      <Toolbar />
-    </SafeAreaView>
+        {/* Toolbar */}
+        <Toolbar />
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
@@ -189,34 +185,10 @@ const AddRecipe = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
   },
   content: {
     padding: 20,
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    padding: 30,
-    textAlign: 'center',
-  },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    padding: 10,
-  },
-  backImage: {
-    width: 70,
-    height: 70,
-  },
-  input: {
-    backgroundColor: '#fff',
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
   },
   inputWide: {
     backgroundColor: '#fff',
@@ -225,7 +197,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 10,
-    paddingHorizontal: 10,
+    padding: 20,
   },
   inputWider: {
     backgroundColor: '#fff',
@@ -235,22 +207,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
-  },
-  saveButton: {
-    backgroundColor: '#fcf3cf',
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 125,
-    left: 20,
-    right: 20,
-  },
-  buttonText: {
-    color: '#000000',
-    fontSize: 18,
-    fontWeight: 'bold',
+    padding: 20,
   },
   endText: {
     paddingBottom: 80,

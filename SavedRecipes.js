@@ -1,10 +1,13 @@
 // Import necessary packages and components
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 import Toolbar from './Toolbar';
+import BackButton from './BackButton';
+import RecipeCard from './RecipeCard';
+import HeaderText from './HeaderText';
 
 // Define the SavedRecipes component
 const SavedRecipes = () => {
@@ -49,34 +52,21 @@ const SavedRecipes = () => {
 
     // Render the SavedRecipes component
     return (
-        <SafeAreaView style={styles.container}>
-            <Text style={styles.heading}>Saved Recipes</Text>
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                <Image source={require('./assets/backbutton.png')} style={[styles.backImage, styles.imageBorder]} />
-            </TouchableOpacity>
-            <ScrollView contentContainerStyle={styles.content}>
-                {savedRecipes.length > 0 ? (
-                    savedRecipes.map((recipe) => (
-                        <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
-                            <View style={styles.recipeContainer}>
-                                <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-                                <View style={styles.recipeDetails}>
-                                    <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-                                    <Text style={styles.recipeDescription}>{recipe.description}</Text>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    ))
-                ) : (
-                    <Text style={styles.noRecText}>No saved recipes.</Text>
-                )}
-                <Text style={styles.endText}>End</Text>
-            </ScrollView>
-
-            {/* Toolbar */}
+        <>
+            <SafeAreaView style={styles.container}>
+                <HeaderText >Saved Recipes</HeaderText>
+                <BackButton/>
+                <ScrollView>
+                    {savedRecipes.length > 0 ? (
+                        savedRecipes.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
+                    ) : (
+                        <Text style={styles.noRecText}>No saved recipes.</Text>
+                    )}
+                    <Text style={styles.endText}>End</Text>
+                </ScrollView>
+            </SafeAreaView>
             <Toolbar />
-        </SafeAreaView>
-
+        </>
     );
 };
 
@@ -84,6 +74,7 @@ const SavedRecipes = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 10,
     },
     heading: {
         fontSize: 24,
@@ -91,39 +82,8 @@ const styles = StyleSheet.create({
         padding: 30,
         textAlign: 'center',
     },
-    backButton: {
-        position: 'absolute',
-        top: 50,
-        left: 20,
-        padding: 10,
-    },
-    backImage: {
-        width: 70,
-        height: 70,
-    },
     noRecText: {
         paddingLeft: 20,
-    },
-    recipeContainer: {
-        backgroundColor: '#fff',
-        flexDirection: 'row',
-        padding: 10,
-        paddingTop: 20,
-    },
-    recipeDetails: {
-        flex: 1,
-    },
-    recipeImage: {
-        width: 100,
-        height: 100,
-        marginRight: 10,
-    },
-    recipeName: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    recipeDescription: {
-        fontSize: 16,
     },
     endText: {
         fontSize: 20,
@@ -131,7 +91,7 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-      }
+    }
 });
 
 // Export the SavedRecipes component

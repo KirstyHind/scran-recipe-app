@@ -1,6 +1,6 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import AppName from './AppName';
@@ -63,7 +63,7 @@ const Login = () => {
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.container}>
                 <AppName />
-                <HeaderText>Log In</HeaderText>
+                <Text style={styles.loginText}>Log In</Text>
                 <View style={styles.login}>
                     <InputBox
                         placeholder="Email"
@@ -83,9 +83,9 @@ const Login = () => {
                 <CustomButton
                     title="Login"
                     onPress={handleLogin}
-                    style={{ minWidth: '75%', minHeight: '7%',}}
+                    style={{ width: '75%', height: '7%',}}
                 />
-                <BackButton onPress={() => navigation.navigate('Home')} />
+                <BackButton/>
             </View>
         </TouchableWithoutFeedback>
     );
@@ -100,6 +100,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
+    loginText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginBottom: 80,
+        textAlign: 'center',
+      },
     login: {
         marginTop: 50,
     }

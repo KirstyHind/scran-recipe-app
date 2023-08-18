@@ -12,10 +12,11 @@ const HeaderText = (props) => {
 
 const styles = StyleSheet.create({
     headerText: {
-        fontSize: 40,
+        fontSize: 26,
         fontWeight: 'bold',
+        padding: 35,
         textAlign: 'center',
-    },
+      },
 });
 
 export default HeaderText;

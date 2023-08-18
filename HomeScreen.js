@@ -232,14 +232,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 40,
-    justifyContent: 'center',
-    top: 35,
-    padding: 10,
-  },
   noRecText: {
     paddingLeft: 10,
     fontSize: 16,
