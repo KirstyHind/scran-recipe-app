@@ -1,6 +1,6 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import AppName from './AppName';

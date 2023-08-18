@@ -1,8 +1,13 @@
 // Import necessary modules and hooks
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Alert, Text, Image } from 'react-native';
+import { View, StyleSheet, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import AppName from './AppName';
+import HeaderText from './HeaderText';
+import CustomButton from './CustomButton';
+import BackButton from './BackButton';
+import InputBox from './InputBox';
 
 // Define the Register component
 const Register = () => {
@@ -71,37 +76,36 @@ const Register = () => {
 
     // Render the Register component
     return (
-        <View style={styles.container}>
-            <Text style={styles.registerText}>Register</Text>
-            {/* Input fields for email and password */}
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                onChangeText={setEmail}
-                value={email}
-                keyboardType="email-address"
-                autoCapitalize="none"
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                onChangeText={setPassword}
-                value={password}
-            />
-            <TouchableOpacity style={styles.button} onPress={handleRegistration}>
-                <Text style={styles.buttonText}>Register</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.navigate('Home')}>
-                <Image source={require('./assets/backbutton.png')} style={styles.backImage} />
-            </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <AppName />
+                <HeaderText>Register</HeaderText>
+                <View style={styles.register}>
+                    <InputBox
+                        placeholder="Email"
+                        onChangeText={(text) => setEmail(text)}
+                        value={email}
+                        keyboardType="email-address"
+                    />
+                    <InputBox
+                        placeholder="Password"
+                        isPassword={true}
+                        onChangeText={(text) => setPassword(text)}
+                        value={password}
+                    />
+                </View>
+                <CustomButton
+                    title="Register"
+                    onPress={handleRegistration}
+                    style={{ minWidth: '75%', minHeight: '7%',}}
+                />
+                <BackButton onPress={() => navigation.navigate('Home')} />
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 
-// Styling for the Register component
+// Define styles for the components
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -109,48 +113,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
     },
-    registerText: {
-        fontSize: 40,
-        fontWeight: 'bold',
-        height: 150,
-        marginBottom: 20,
-    },
-    input: {
-        backgroundColor: '#fff',
-        width: '80%',
-        marginBottom: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        borderRadius: 5,
-    },
-    backButton: {
-        position: 'absolute',
-        top: 50,
-        left: 20,
-        padding: 10,
-    },
-    backImage: {
-        width: 70,
-        height: 70,
-    },
-    button: {
-        backgroundColor: '#fcf3cf',
-        paddingHorizontal: 10,
-        paddingVertical: 15,
-        borderRadius: 5,
-        borderWidth: 1,
-        margin: 5,
-        minWidth: 200,
-        minHeight: 50,
-        textAlign: 'center',
-        alignItems: 'center',
-    },
-    buttonText: {
-        color: '#000000',
-        fontSize: 16,
-        textAlign: 'center',
-        fontWeight: 'bold',
+    register: {
+        marginTop: 200,
     }
 });
 
