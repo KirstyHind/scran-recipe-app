@@ -10,7 +10,6 @@ const RecipeInfo = ({ recipe }) => {
     const {
         prepTime,
         cookTime,
-        recipeName,
         image,
         description,
         servings,
