@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 
-const InputBox = ({ placeholder, isPassword = false, onChangeText, value, keyboardType = 'default' }) => {
+const InputBox = ({ placeholder, isPassword = false, onChangeText, value, onSubmitEditing, keyboardType = 'default' }) => {
     return (
         <TextInput
             style={styles.input}
@@ -11,6 +11,7 @@ const InputBox = ({ placeholder, isPassword = false, onChangeText, value, keyboa
             value={value}
             keyboardType={keyboardType}
             autoCapitalize={isPassword ? 'none' : 'sentences'}
+            onSubmitEditing={onSubmitEditing}
         />
     );
 };

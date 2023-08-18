@@ -5,6 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import Toolbar from './Toolbar';
+import CustomButton from './CustomButton';
+import InputBox from './InputBox';
 
 // Define the HomeScreen component
 const HomeScreen = () => {
@@ -32,25 +34,25 @@ const HomeScreen = () => {
     const database = getDatabase();
     const savedRecipesRef = ref(database, `users/${auth.currentUser.uid}/savedRecipes`);
 
-      // Define the value change handler
-      const onValueChange = snapshot => {
-        if (snapshot.exists()) {
-          // Transform the snapshot to a list of recipes
-          const data = snapshot.val();
-          const allSavedRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
+    // Define the value change handler
+    const onValueChange = snapshot => {
+      if (snapshot.exists()) {
+        // Transform the snapshot to a list of recipes
+        const data = snapshot.val();
+        const allSavedRecipes = Object.keys(data).map((key) => ({ id: key, ...data[key] }));
 
-          setSavedRecipes(allSavedRecipes);
-        } else {
-          // Set empty recipes list if there's no data
-          setSavedRecipes([]);
-        }
+        setSavedRecipes(allSavedRecipes);
+      } else {
+        // Set empty recipes list if there's no data
+        setSavedRecipes([]);
       }
+    }
 
-      // Attach the value change listener
-      onValue(savedRecipesRef, onValueChange);
+    // Attach the value change listener
+    onValue(savedRecipesRef, onValueChange);
 
-      // Cleanup function for removing the listener
-      return () => off(savedRecipesRef, 'value', onValueChange);
+    // Cleanup function for removing the listener
+    return () => off(savedRecipesRef, 'value', onValueChange);
   };
 
   const fetchRandomRecipes = () => {
@@ -158,26 +160,20 @@ const HomeScreen = () => {
       {/* User Details */}
       <View style={styles.userDetailsContainer}>
         <Text style={styles.userDetails}>Welcome {username}!</Text>
+        <CustomButton
+          title="Logout"
+          onPress={handleLogout}
+          style={styles.button}
+        />
       </View>
-
-      {/* Logout Button */}
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
 
       {/* Search */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Search"
-          onChangeText={handleSearchInputChange}
-          onSubmitEditing={handleSubmitEditing}
-          value={searchQuery}
-        />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearchButtonPress}>
-          <Text style={styles.buttonText}>Search</Text>
-        </TouchableOpacity>
-      </View>
+      <InputBox
+        placeholder="Search"
+        onChangeText={handleSearchInputChange}
+        onSubmitEditing={handleSubmitEditing}
+        value={searchQuery}
+      />
 
       {/* Saved Recipes ScrollView */}
       <Text style={styles.heading}>Your Saved Recipes</Text>
@@ -232,26 +228,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    paddingTop: 120,
+    paddingTop: 70,
+    padding: 10,
   },
   userDetailsContainer: {
-    position: 'absolute',
-    top: 80,
-    left: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    marginBottom: 10,
   },
   userDetails: {
     fontSize: 30,
     fontWeight: 'bold',
   },
-  logoutButton: {
-    backgroundColor: '#fcf3cf',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    position: 'absolute',
-    top: 80,
-    right: 20,
-    borderWidth: 1,
+  button: {
+    marginTop: 20,
+    width: 100,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -260,30 +256,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     top: 35,
     padding: 10,
-  },
-  searchInput: {
-    backgroundColor: '#fff',
-    flex: 1,
-    height: 48,
-    borderColor: '#000000',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginRight: 10,
-  },
-  buttonText: {
-    color: '#000000',
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  searchButton: {
-    backgroundColor: '#fcf3cf',
-    paddingVertical: 13,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    height: 48,
-    borderWidth: 1,
   },
   noRecText: {
     paddingLeft: 20,

@@ -76,6 +76,7 @@ const Login = () => {
                         isPassword={true}
                         onChangeText={(text) => setPassword(text)}
                         value={password}
+                        onSubmitEditing={handleLogin}
                     />
                 </View>
                 <CustomButton
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     login: {
-        marginTop: 200,
+        marginTop: 50,
     }
 });
 

@@ -92,6 +92,7 @@ const Register = () => {
                         isPassword={true}
                         onChangeText={(text) => setPassword(text)}
                         value={password}
+                        onSubmitEditing={handleRegistration}
                     />
                 </View>
                 <CustomButton
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     register: {
-        marginTop: 200,
+        marginTop: 50,
     }
 });
 
