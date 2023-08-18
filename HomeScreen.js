@@ -7,6 +7,7 @@ import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 import Toolbar from './Toolbar';
 import CustomButton from './CustomButton';
 import InputBox from './InputBox';
+import RecipeCard from './RecipeCard';
 
 // Define the HomeScreen component
 const HomeScreen = () => {
@@ -155,71 +156,53 @@ const HomeScreen = () => {
   }, [userEmail]);
 
   // Render the HomeScreen component
+  // Render the HomeScreen component
   return (
-    <View style={styles.container}>
-      {/* User Details */}
-      <View style={styles.userDetailsContainer}>
-        <Text style={styles.userDetails}>Welcome {username}!</Text>
-        <CustomButton
-          title="Logout"
-          onPress={handleLogout}
-          style={styles.button}
+    // Using a Fragment to wrap the two top-level components
+    <>
+      <View style={styles.container}>
+        {/* User Details */}
+        <View style={styles.userDetailsContainer}>
+          <Text style={styles.userDetails}>Welcome {username}!</Text>
+          <CustomButton
+            title="Logout"
+            onPress={handleLogout}
+            style={styles.button}
+          />
+        </View>
+
+        {/* Search */}
+        <InputBox
+          placeholder="Search"
+          onChangeText={handleSearchInputChange}
+          onSubmitEditing={handleSubmitEditing}
+          value={searchQuery}
         />
+
+        {/* Saved Recipes ScrollView */}
+        <Text style={styles.heading}>Your Saved Recipes</Text>
+        <ScrollView horizontal>
+          {savedRecipes.length > 0 ? (
+            savedRecipes.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
+          ) : (
+            <Text style={styles.noRecText}>No saved recipes.</Text>
+          )}
+        </ScrollView>
+
+        {/* Random Recipes */}
+        <Text style={styles.heading}>Discover New Recipes</Text>
+        <ScrollView horizontal={true}>
+          {randomRecipes.length > 0 ? (
+            randomRecipes.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
+          ) : (
+            <Text style={styles.noRecText}>No recipes available.</Text>
+          )}
+        </ScrollView>
+
+        <Text style={styles.enjoyText}>Enjoy!</Text>
       </View>
-
-      {/* Search */}
-      <InputBox
-        placeholder="Search"
-        onChangeText={handleSearchInputChange}
-        onSubmitEditing={handleSubmitEditing}
-        value={searchQuery}
-      />
-
-      {/* Saved Recipes ScrollView */}
-      <Text style={styles.heading}>Your Saved Recipes</Text>
-      <ScrollView horizontal>
-        {savedRecipes.length > 0 ? (
-          savedRecipes.map((recipe) => (
-            <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
-              <View style={styles.recipeContainer}>
-                <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-                <View style={styles.recipeDetails}>
-                  <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-                  <Text style={styles.recipeDescription}>{recipe.description}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text style={styles.noRecText}>No saved recipes.</Text>
-        )}
-      </ScrollView>
-
-      {/* Random Recipes */}
-      <Text style={styles.heading}>Discover New Recipes</Text>
-      <ScrollView horizontal={true}>
-        {randomRecipes.length > 0 ? (
-          randomRecipes.map((recipe) => (
-            <TouchableOpacity key={recipe.id} onPress={() => navigation.navigate('RecipeDetails', { recipeId: recipe.id })}>
-              <View style={styles.recipeContainer}>
-                <Image source={{ uri: recipe.image }} style={styles.recipeImage} />
-                <View style={styles.recipeDetails}>
-                  <Text style={styles.recipeName}>{recipe.recipeName}</Text>
-                  <Text style={styles.recipeDescription}>{recipe.description}</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text style={styles.noRecText}>No recipes available.</Text>
-        )}
-      </ScrollView>
-
-      <Text style={styles.enjoyText}>Enjoy!</Text>
-
-      {/* Toolbar */}
       <Toolbar />
-    </View>
+    </>
   );
 };
 
@@ -258,12 +241,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   noRecText: {
-    paddingLeft: 20,
-  },
-  recipeContainer: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    padding: 10,
+    paddingLeft: 10,
+    fontSize: 16,
   },
   heading: {
     fontSize: 20,
@@ -272,26 +251,6 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'left',
     marginBottom: 10,
-  },
-  recipeImage: {
-    width: 125,
-    height: 125,
-    marginRight: 10,
-  },
-  recipeDetails: {
-    flex: 1,
-    padding: 10,
-    width: '100%',
-  },
-  recipeName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 10,
-  },
-  recipeDescription: {
-    fontSize: 14,
-    width: 125,
-    height: 125,
   },
   enjoyText: {
     fontSize: 24,

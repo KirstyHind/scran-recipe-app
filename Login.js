@@ -70,6 +70,7 @@ const Login = () => {
                         onChangeText={(text) => setEmail(text)}
                         value={email}
                         keyboardType="email-address"
+                        onSubmitEditing={handleLogin}
                     />
                     <InputBox
                         placeholder="Password"
