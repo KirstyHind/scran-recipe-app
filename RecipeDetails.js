@@ -58,31 +58,13 @@ const RecipeDetails = ({ route, navigation }) => {
     }
   }, [recipeId]); // Dependency array
 
-  // If the recipe is still loading, display a loading message
   if (!recipe) {
     return <Text>Loading...</Text>;
   }
 
   const {
-    prepTime,
-    cookTime,
     recipeName,
-    image,
-    description,
-    servings,
-    cuisine,
-    mealType,
-    difficulty,
-    dietaryRequirements,
-    ingredients,
-    instructions
   } = recipe;
-
-  // Calculate total recipe time and format it for display
-  const totalTime = recipe.prepTime + recipe.cookTime;
-  const hours = Math.floor(totalTime / 60);
-  const minutes = totalTime % 60;
-  const displayTime = hours > 0 ? `${hours} hours ${minutes} minutes` : `${minutes} minutes`;
 
   // Handler for saving a recipe
   const handleSave = async () => {
@@ -120,7 +102,7 @@ const RecipeDetails = ({ route, navigation }) => {
   // Render the RecipeDetails component
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderText >Recipe Details</HeaderText>
+      <HeaderText>Recipe Details</HeaderText>
       <BackButton />
       <ScrollView style={styles.content}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -132,62 +114,9 @@ const RecipeDetails = ({ route, navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        <Image source={{ uri: image }} style={styles.recipeImage} />
-        <Text style={styles.recipeDesc}>{description}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Prep Time: </Text>
-          <Text style={styles.recipeInfo}>{prepTime} minutes</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Cook Time: </Text>
-          <Text style={styles.recipeInfo}>{cookTime} minutes</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Total Time: </Text>
-          <Text style={styles.recipeInfo}>{displayTime}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Servings: </Text>
-          <Text style={styles.recipeInfo}>{servings}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Cuisine: </Text>
-          <Text style={styles.recipeInfo}>{cuisine}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Meal Type: </Text>
-          <Text style={styles.recipeInfo}>{mealType}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Difficulty: </Text>
-          <Text style={styles.recipeInfo}>{difficulty}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Text style={styles.boldText}>Dietary: </Text>
-          <Text style={styles.recipeInfo}>{dietaryRequirements.join(', ')}</Text>
-        </View>
-        <Text style={styles.subheading}>Ingredients:</Text>
-        {recipe.ingredients.map((ingredient, index) => (
-          <View key={index}>
-            <Text style={styles.ingredients}>{ingredient}</Text>
-          </View>
-
-        ))}
-        <Text style={styles.subheading}>Cooking Instructions:</Text>
-        {recipe.instructions.map((instruction, index) => (
-          <View key={index} style={{ flexDirection: 'row' }}>
-            <Text style={styles.boldText}>{`${index + 1}.`}</Text>
-            <Text style={styles.instructions}>{instruction}</Text>
-          </View>
-        ))}
+        <RecipeInfo recipe={recipe} />
         <Text style={styles.enjoyText}>Enjoy!</Text>
       </ScrollView>
-      {/* Toolbar */}
       <Toolbar />
     </SafeAreaView>
   );
@@ -204,16 +133,6 @@ const styles = StyleSheet.create({
     padding: 30,
     textAlign: 'center',
   },
-  backButton: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    padding: 10,
-  },
-  backImage: {
-    width: 70,
-    height: 70,
-  },
   content: {
     padding: 20,
     paddingBottom: 120,
@@ -223,44 +142,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
-  },
-  recipeImage: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-    marginBottom: 20,
-  },
-  recipeDesc: {
-    fontSize: 22,
-    marginBottom: 20,
-    padding: 10,
-  },
-  recipeInfo: {
-    fontSize: 20,
-    marginBottom: 30,
-    paddingRight: 100,
-  },
-  ingredients: {
-    fontSize: 20,
-    marginBottom: 30,
-    paddingRight: 20,
-  },
-  instructions: {
-    fontSize: 20,
-    marginBottom: 30,
-    paddingRight: 20,
-  },
-  subheading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  boldText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginRight: 10,
-    marginBottom: 30,
   },
   enjoyText: {
     fontSize: 24,
