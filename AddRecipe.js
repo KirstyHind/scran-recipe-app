@@ -1,6 +1,6 @@
 // Necessary React and React Native imports
 import React, { useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity, Alert, TextInput, SafeAreaView, Image, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text, StyleSheet, Alert, TextInput, SafeAreaView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import firebase, { database } from './firebaseConfig';
 import { ref, set, push } from 'firebase/database';
 import 'firebase/database';
@@ -21,7 +21,7 @@ const AddRecipe = ({ navigation }) => {
   const [image, setImageLink] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [servings, setServings] = useState('');
-  const [cookingInstructions, setCookingInstructions] = useState('');
+  const [instructions, setInstructions] = useState('');
   const [cuisine, setCuisine] = useState('');
   const [prepTime, setPrepTime] = useState('');
   const [cookTime, setCookTime] = useState('');
@@ -37,7 +37,7 @@ const AddRecipe = ({ navigation }) => {
 
       // Making user input the desired format
       const ingredientsArray = ingredients.split(',').map(item => item.trim());
-      const instructionsArray = cookingInstructions.split(',').map(item => item.trim());
+      const instructionsArray = instructions.split(',').map(item => item.trim());
       const dietaryArray = dietaryRequirements.split(',').map(item => item.trim());
 
       // The new recipe object
@@ -47,7 +47,7 @@ const AddRecipe = ({ navigation }) => {
         image,
         ingredients: ingredientsArray,
         servings: parseInt(servings),
-        cookingInstructions: instructionsArray,
+        instructions: instructionsArray,
         cuisine,
         prepTime: parseInt(prepTime),
         cookTime: parseInt(cookTime),
@@ -116,8 +116,8 @@ const AddRecipe = ({ navigation }) => {
           <TextInput
             style={styles.inputWider}
             placeholder="Cooking Instructions (separate by ,)"
-            value={cookingInstructions}
-            onChangeText={(text) => setCookingInstructions(text)}
+            value={instructions}
+            onChangeText={(text) => setInstructions(text)}
             multiline // Enable multiline input
             numberOfLines={4} // Set the initial number of lines to show
             onSubmitEditing={() => { }} // This function will handle the "Enter" key press

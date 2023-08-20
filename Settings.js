@@ -1,6 +1,6 @@
 // Import necessary libraries and components
 import React, { useState } from 'react';
-import { Alert, View, Text, StyleSheet, TouchableOpacity, SectionList, TextInput, Image, SafeAreaView } from 'react-native';
+import { Alert, Text, StyleSheet, TouchableOpacity, SectionList, TextInput, Image, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import Toolbar from './Toolbar';

@@ -1,6 +1,6 @@
 // Import necessary libraries and components
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { getDatabase, ref, onValue, off } from 'firebase/database'; // Firebase Realtime Database methods
 import { useNavigation } from '@react-navigation/native';
 import Toolbar from './Toolbar';
@@ -96,6 +96,7 @@ const SearchResult = ({ route }) => {
 
   // Render the SearchResult component
   return (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <SafeAreaView style={styles.container}>
       <HeaderText >Search Results</HeaderText>
       <BackButton />
@@ -109,7 +110,7 @@ const SearchResult = ({ route }) => {
                     {searchResults.length > 0 ? (
                         searchResults.map((recipe) => <RecipeCard key={recipe.id} recipe={recipe} />)
                     ) : (
-                        <Text style={styles.noRecText}>No saved recipes.</Text>
+                        <Text style={styles.noRecText}>No recipes found.</Text>
                     )}
                     <Text style={styles.endText}>End</Text>
                 </ScrollView>
@@ -117,6 +118,7 @@ const SearchResult = ({ route }) => {
       {/* Toolbar */}
       <Toolbar />
     </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -125,6 +127,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
+  },
+  noRecText: {
+    fontSize: 20,             
+    fontWeight: 'bold',      
+    padding: 20,  
   },
   endText: {
     fontSize: 20,

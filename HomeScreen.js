@@ -1,6 +1,6 @@
 // Import necessary packages and components
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getDatabase, ref, onValue, off } from 'firebase/database';
 import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
@@ -137,6 +137,9 @@ const HomeScreen = () => {
       if (user) {
         // User is logged in, set the email in the state
         setUserEmail(user.email);
+        // Extract the username from the email using split() at '.'
+        const usernameFromEmail = user.email.split('.')[0];  // Use '@' instead of '.' to extract the username
+        setUsername(usernameFromEmail.charAt(0).toUpperCase() + usernameFromEmail.slice(1));
       } else {
         // User is not logged in, navigate to the login screen
         navigation.navigate('Login');
@@ -144,23 +147,13 @@ const HomeScreen = () => {
     });
   }, [navigation]);
 
-  // Effect hook to extract the username from the email and set it in the state
-  useEffect(() => {
-    if (userEmail) {
-      // Extract the username from the email using split()
-      const usernameFromEmail = userEmail.split('.')[0];
-
-      // Set the username in the state
-      setUsername(usernameFromEmail.charAt(0).toUpperCase() + usernameFromEmail.slice(1));
-    }
-  }, [userEmail]);
-
   // Render the HomeScreen component
   // Render the HomeScreen component
   return (
     // Using a Fragment to wrap the two top-level components
-    <>
-      <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <>
+                <View style={styles.container}>
         {/* User Details */}
         <View style={styles.userDetailsContainer}>
           <Text style={styles.userDetails}>Welcome {username}!</Text>
@@ -203,6 +196,7 @@ const HomeScreen = () => {
       </View>
       <Toolbar />
     </>
+    </TouchableWithoutFeedback>
   );
 };
 

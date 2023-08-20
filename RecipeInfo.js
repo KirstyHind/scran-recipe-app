@@ -76,10 +76,10 @@ const RecipeInfo = ({ recipe }) => {
             ))}
 
             <Text style={styles.subheading}>Cooking Instructions:</Text>
-            {recipe.instructions.map((instruction, index) => (
+            {recipe.instructions.map((instructions, index) => (
                 <View key={index} style={{ flexDirection: 'row' }}>
                     <Text style={styles.boldText}>{`${index + 1}.`}</Text>
-                    <Text style={styles.instructions}>{instruction}</Text>
+                    <Text style={styles.instructions}>{instructions}</Text>
                 </View>
             ))}
         </View>
@@ -90,44 +90,44 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
     },
-      recipeImage: {
+    recipeImage: {
         width: '100%',
         height: 200,
         resizeMode: 'cover',
         marginBottom: 20,
-      },
-      recipeDesc: {
+    },
+    recipeDesc: {
         fontSize: 22,
         marginBottom: 20,
         padding: 10,
-      },
-      recipeInfo: {
+    },
+    recipeInfo: {
         fontSize: 20,
         marginBottom: 30,
         paddingRight: 100,
-      },
-      ingredients: {
+    },
+    ingredients: {
         fontSize: 20,
         marginBottom: 30,
         paddingRight: 20,
-      },
-      instructions: {
+    },
+    instructions: {
         fontSize: 20,
         marginBottom: 30,
         paddingRight: 20,
-      },
-      subheading: {
+    },
+    subheading: {
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 20,
         marginBottom: 20,
-      },
-      boldText: {
+    },
+    boldText: {
         fontSize: 20,
         fontWeight: 'bold',
         marginRight: 10,
         marginBottom: 30,
-      },
+    },
     listItem: {
         fontSize: 16,
         marginBottom: 10,
